@@ -19,8 +19,8 @@ func NewPostStorePgx(db *pgxpool.Pool) *PostStorePgx {
 	}
 }
 
-func (s *PostStorePgx) GetAllPosts(offset, limit int) ([]models.Post, error) {
-	var posts []models.Post
+func (s *PostStorePgx) GetAllPosts(offset, limit int) ([]*models.Post, error) {
+	var posts []*models.Post
 
 	query := `SELECT * FROM posts ORDER BY id DESC LIMIT $1 OFFSET $2;`
 
@@ -39,7 +39,7 @@ func (s *PostStorePgx) GetAllPosts(offset, limit int) ([]models.Post, error) {
 		if err = rows.Scan(&id, &title, &content, &author, &isCommentsAllowed, &createdAt); err != nil {
 			return nil, err
 		}
-		posts = append(posts, models.Post{ID: id, Title: title, Content: content, Author: author,
+		posts = append(posts, &models.Post{ID: id, Title: title, Content: content, Author: author,
 			IsCommentsAllowed: isCommentsAllowed, CreatedAt: createdAt})
 	}
 	return posts, nil

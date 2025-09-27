@@ -2,3 +2,6 @@
 {"level":"fatal","timestamp":"2025-09-25T20:31:21.546+0300","caller":"app/app.go:13","msg":"Error loading .env file","pid":460690}
 {"level":"info","timestamp":"2025-09-25T20:54:58.350+0300","caller":"db/connectToDb.go:17","msg":"Connected to Postgres successfully","pid":482489}
 {"level":"info","timestamp":"2025-09-26T23:13:45.409+0300","caller":"db/connectToDb.go:17","msg":"Connected to Postgres successfully","pid":113968}
+{"level":"info","timestamp":"2025-09-27T22:32:26.156+0300","caller":"db/connectToDb.go:17","msg":"Connected to Postgres successfully","pid":167948}
+{"level":"info","timestamp":"2025-09-28T02:29:36.280+0300","caller":"db/connectToDb.go:17","msg":"Connected to Postgres successfully","pid":259846}
+{"level":"info","timestamp":"2025-09-28T02:39:36.505+0300","caller":"db/connectToDb.go:17","msg":"Connected to Postgres successfully","pid":265646}

@@ -2,8 +2,8 @@ package utils
 
 import "github.com/nedokyrill/posts-service/pkg/consts"
 
-func GetOffsetNLimit(page *int, pageSize int) (int, int) {
-	var newPage int
+func GetOffsetNLimit(page *int32, pageSize int) (int, int) {
+	var newPage int32
 
 	if page == nil || *page <= 0 {
 		newPage = 1
@@ -15,7 +15,7 @@ func GetOffsetNLimit(page *int, pageSize int) (int, int) {
 		pageSize = consts.PageSize
 	}
 
-	offset := newPage * pageSize
+	offset := int(newPage) * pageSize
 	limit := pageSize
 
 	return offset, limit

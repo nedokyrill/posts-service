@@ -31,15 +31,15 @@ func (s *CommentsStorageMem) CreateComment(comment models.Comment) (models.Comme
 	s.comms = append(s.comms, comment)
 	return comment, nil
 }
-func (s *CommentsStorageMem) GetCommentsByPostID(postID uuid.UUID, offset, limit int) ([]models.Comment, error) {
-	comments := make([]models.Comment, 0)
+func (s *CommentsStorageMem) GetCommentsByPostID(postID uuid.UUID, offset, limit int) ([]*models.Comment, error) {
+	comments := make([]*models.Comment, 0)
 
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
 	for i := len(s.comms) - 1; i >= 0; i-- { // order by created_at desc
 		if s.comms[i].PostID == postID && s.comms[i].ParentCommentID == nil {
-			comments = append(comments, s.comms[i])
+			comments = append(comments, &s.comms[i])
 		}
 	}
 
@@ -53,15 +53,15 @@ func (s *CommentsStorageMem) GetCommentsByPostID(postID uuid.UUID, offset, limit
 
 	return comments[offset : offset+limit], nil
 }
-func (s *CommentsStorageMem) GetRepliesByComment(parentCommentID uuid.UUID) ([]models.Comment, error) {
-	comments := make([]models.Comment, 0)
+func (s *CommentsStorageMem) GetRepliesByComment(parentCommentID uuid.UUID) ([]*models.Comment, error) {
+	comments := make([]*models.Comment, 0)
 
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
 	for i := len(s.comms) - 1; i >= 0; i-- {
 		if s.comms[i].ParentCommentID == &parentCommentID {
-			comments = append(comments, s.comms[i])
+			comments = append(comments, &s.comms[i])
 		}
 	}
 

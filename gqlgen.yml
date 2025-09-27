@@ -1,17 +1,17 @@
 # Where are all the schema files located? globs are supported eg  src/**/*.graphqls
 schema:
-  - graph/*.graphqls
+  - graphql/*.graphqls
 
 # Where should the generated server code go?
 exec:
-  package: graph
+  package: graphql
   layout: single-file # Only other option is "follow-schema," ie multi-file.
 
   # Only for single-file layout:
-  filename: graph/generated.go
+  filename: graphql/generated.go
 
   # Only for follow-schema layout:
-  # dir: graph
+  # dir: graphql
   # filename_template: "{name}.generated.go"
 
   # Optional: Maximum number of goroutines in concurrency to use per child resolvers(default: unlimited)
@@ -19,8 +19,8 @@ exec:
 
 # Uncomment to enable federation
 # federation:
-#   filename: graph/federation.go
-#   package: graph
+#   filename: graphql/federation.go
+#   package: graphql
 #   version: 2
 #   options:
 #     computed_requires: true
@@ -35,14 +35,14 @@ model:
 
 # Where should the resolver implementations go?
 resolver:
-  package: graph
+  package: resolvers
   layout: follow-schema # Only other option is "single-file."
 
   # Only for single-file layout:
-  # filename: graph/resolver.go
+  # filename: graphql/resolver.go
 
   # Only for follow-schema layout:
-  dir: graph
+  dir: internal/resolvers
   filename_template: "{name}.resolvers.go"
 
   # Optional: turn on to not generate template comments above resolvers
@@ -140,6 +140,7 @@ models:
   UUID:
     model:
       - github.com/99designs/gqlgen/graphql.UUID
+
 
   # The GraphQL spec explicitly states that the Int type is a signed 32-bit
   # integer. Using Go int or int64 to represent it can lead to unexpected

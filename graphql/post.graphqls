@@ -1,4 +1,4 @@
-scalar TimeStamp
+scalar Time
 scalar UUID
 
 type Post {
@@ -8,7 +8,7 @@ type Post {
     content: String!
     isCommentsAllowed: Boolean!
     comments(page: Int): [Comment!]
-    createdAt: TimeStamp
+    createdAt: Time
 }
 
 type Query {

@@ -5,7 +5,7 @@ type Comment {
     postId: UUID!
     parentCommentId: UUID
     replies: [Comment!]
-    createdAt: TimeStamp
+    createdAt: Time
 }
 
 extend type Mutation {

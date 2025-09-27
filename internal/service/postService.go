@@ -1,7 +1,6 @@
 package service
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/google/uuid"
@@ -22,10 +21,11 @@ func NewPostService(store storage.PostStorage) *PostServiceImpl {
 	}
 }
 
-func (s *PostServiceImpl) GetAllPosts(page *int) ([]models.Post, error) {
+func (s *PostServiceImpl) GetAllPosts(page *int32) ([]*models.Post, error) {
 	if page == nil || *page <= 0 {
 		logger.Logger.Error("page must be greater than zero")
-		return nil, errors.New("page must be greater than zero")
+		return nil, utils.GqlError{Msg: "page must be greater than zero", Type: consts.BadRequestType}
+
 	}
 
 	offset, limit := utils.GetOffsetNLimit(page, consts.PageSize)
@@ -33,38 +33,41 @@ func (s *PostServiceImpl) GetAllPosts(page *int) ([]models.Post, error) {
 	posts, err := s.store.GetAllPosts(offset, limit)
 	if err != nil {
 		logger.Logger.Error("error with getting posts: ", err)
-		return nil, err
+		return nil, utils.GqlError{Msg: "error with getting posts", Type: consts.InternalServerErrorType}
 	}
 
 	logger.Logger.Info("get all posts successfully")
 	return posts, nil
 }
-func (s *PostServiceImpl) GetPostByID(id uuid.UUID) (*models.Post, error) {
-	post, err := s.store.GetPostByID(id)
+func (s *PostServiceImpl) GetPostByID(id *uuid.UUID) (*models.Post, error) {
+	post, err := s.store.GetPostByID(*id)
 
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("post with id: %s not found, err: %v", id.String(), err))
-		return nil, errors.New(fmt.Sprintf("post with id: %s not found, err: %v", id.String(), err))
+		return nil, utils.GqlError{Msg: fmt.Sprintf("post with id: %s not found", id.String()),
+			Type: consts.InternalServerErrorType}
 	}
 
 	logger.Logger.Info(fmt.Sprintf("get post with id: %s successfully", post.ID.String()))
 	return &post, nil
 }
-func (s *PostServiceImpl) CreatePost(post models.Post) (*models.Post, error) {
-	if len(post.Title) == 0 {
+func (s *PostServiceImpl) CreatePost(title string, author *string, content string,
+	isCommentAllowed bool) (*models.Post, error) {
+	if len(title) == 0 {
 		logger.Logger.Error("post must have a title")
-		return nil, errors.New("post must have a title")
+		return nil, utils.GqlError{Msg: "post must have a title", Type: consts.BadRequestType}
 	}
 
-	if len(post.Author) == 0 {
+	if len(*author) == 0 {
 		logger.Logger.Error("post must have a author")
-		return nil, errors.New("post must have a author")
+		return nil, utils.GqlError{Msg: "post must have a author", Type: consts.BadRequestType}
 	}
 
-	newPost, err := s.store.CreatePost(post)
+	newPost, err := s.store.CreatePost(models.Post{Title: title, Author: *author, Content: content,
+		IsCommentsAllowed: isCommentAllowed})
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("error with creating post: %v", err))
-		return nil, errors.New(fmt.Sprintf("error creating post"))
+		return nil, utils.GqlError{Msg: "error creating post", Type: consts.InternalServerErrorType}
 	}
 
 	logger.Logger.Info(fmt.Sprintf("create post with id: %s successfully", newPost.ID.String()))

@@ -37,8 +37,8 @@ func (s *CommentsStorePgx) CreateComment(comment models.Comment) (models.Comment
 	return comment, nil
 }
 
-func (s *CommentsStorePgx) GetCommentsByPostID(postID uuid.UUID, offset, limit int) ([]models.Comment, error) {
-	var comments []models.Comment
+func (s *CommentsStorePgx) GetCommentsByPostID(postID uuid.UUID, offset, limit int) ([]*models.Comment, error) {
+	var comments []*models.Comment
 	query := `SELECT * FROM comments WHERE post_id = $1 AND parent_comment_id IS NULL 
          		ORDER BY created_at DESC LIMIT $2 OFFSET $3;`
 
@@ -57,14 +57,15 @@ func (s *CommentsStorePgx) GetCommentsByPostID(postID uuid.UUID, offset, limit i
 		if err = rows.Scan(&id, &author, &content, &postId, &parentId, &createdAt); err != nil {
 			return nil, err
 		}
-		comments = append(comments, models.Comment{ID: id, Author: author, Content: content, PostID: postId, ParentCommentID: parentId, CreatedAt: createdAt})
+		comments = append(comments, &models.Comment{ID: id, Author: author, Content: content, PostID: postId,
+			ParentCommentID: parentId, CreatedAt: createdAt})
 	}
 	return comments, nil
 }
 
-// слишком много одинакового кода, но решил не выносить в отдельный метод
-func (s *CommentsStorePgx) GetRepliesByComment(parentCommentID uuid.UUID) ([]models.Comment, error) {
-	var replies []models.Comment
+// слишком много одинакового кода, но решил не выносить в отдельный метод, так как используется всего в двух методах
+func (s *CommentsStorePgx) GetRepliesByComment(parentCommentID uuid.UUID) ([]*models.Comment, error) {
+	var replies []*models.Comment
 	query := `SELECT * FROM comments WHERE parent_comment_id = $1 ORDER BY created_at;`
 
 	rows, err := s.db.Query(context.Background(), query, parentCommentID)
@@ -82,7 +83,8 @@ func (s *CommentsStorePgx) GetRepliesByComment(parentCommentID uuid.UUID) ([]mod
 		if err = rows.Scan(&id, &author, &content, &postId, &parentId, &createdAt); err != nil {
 			return nil, err
 		}
-		replies = append(replies, models.Comment{ID: id, Author: author, Content: content, PostID: postId, ParentCommentID: parentId, CreatedAt: createdAt})
+		replies = append(replies, &models.Comment{ID: id, Author: author, Content: content, PostID: postId,
+			ParentCommentID: parentId, CreatedAt: createdAt})
 	}
 	return replies, nil
 }

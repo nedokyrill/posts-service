@@ -1,13 +1,15 @@
 package service
 
 import (
-	"errors"
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/nedokyrill/posts-service/internal/models"
+	"github.com/nedokyrill/posts-service/pkg/consts"
 	"github.com/nedokyrill/posts-service/pkg/logger"
+	"github.com/nedokyrill/posts-service/pkg/utils"
 )
 
 type Viewer struct {
@@ -44,20 +46,23 @@ func (s *ViewerServiceImpl) CreateViewer(postId uuid.UUID) (int, chan *models.Co
 }
 
 // удаляем подписчика из пула при закрытии подписки
-func (s *ViewerServiceImpl) DeleteViewer(postId uuid.UUID, chanId int) error {
+func (s *ViewerServiceImpl) DeleteViewer(postId uuid.UUID, id int) error {
 	s.mu.Lock()
-	defer s.mu.Unlock()
 
 	viewers, ok := s.viewers[postId]
 	if !ok {
+		s.mu.Unlock()
 		logger.Logger.Error(fmt.Sprintf("no post with postId: %s", postId.String()))
-		return errors.New(fmt.Sprintf("no post with postId: %s", postId.String()))
+		return utils.GqlError{Msg: fmt.Sprintf("no post with postId: %s", postId.String()),
+			Type: consts.BadRequestType}
 	}
 	for i, viewer := range viewers {
-		if viewer.id == chanId {
+		if viewer.id == id {
 			s.viewers[postId] = append(viewers[:i], viewers[i+1:]...)
 		}
 	}
+
+	s.mu.Unlock()
 
 	logger.Logger.Infof("delete viewer for post id %s", postId.String())
 	return nil
@@ -66,16 +71,25 @@ func (s *ViewerServiceImpl) DeleteViewer(postId uuid.UUID, chanId int) error {
 // отправляем уведомление в виде комментария всем подписчикам
 func (s *ViewerServiceImpl) NotifyViewers(postId uuid.UUID, comm models.Comment) error {
 	s.mu.Lock()
-	defer s.mu.Unlock()
 
 	viewers, ok := s.viewers[postId]
 	if !ok {
+		s.mu.Unlock()
 		logger.Logger.Error(fmt.Sprintf("no post with postId: %s", postId.String()))
-		return errors.New(fmt.Sprintf("no post with postId: %s", postId.String()))
+		return utils.GqlError{Msg: fmt.Sprintf("no post with postId: %s", postId.String()),
+			Type: consts.BadRequestType}
 	}
 
-	for _, viewer := range viewers {
-		viewer.ch <- &comm
+	snap := make([]Viewer, len(viewers))
+	copy(snap, viewers)
+	s.mu.Unlock() // сделали копию каналов и разлочили мьютекс, чтобы далее не блокировать данные
+
+	for _, v := range snap {
+		select { // селект для неблокирующей отправки (канал для нотификаций может быть закрыт или заполнен)
+		case v.ch <- &comm: // отправляем нотификацию
+		case <-time.After(500 * time.Millisecond): // если за 500мс канал не освободился, логируем айдишник и пропускаем
+			logger.Logger.Error(fmt.Sprintf("viewer with id: %v, channel full", v.id))
+		}
 	}
 
 	logger.Logger.Info(fmt.Sprintf("notify viewer for postId %s successfully", postId.String()))
