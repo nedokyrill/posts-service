@@ -1,0 +1,21 @@
+scalar TimeStamp
+scalar UUID
+
+type Post {
+    id: UUID!
+    title: String!
+    author: String!
+    content: String!
+    isCommentsAllowed: Boolean!
+    comments(page: Int): [Comment!]
+    createdAt: TimeStamp
+}
+
+type Query {
+    GetAllPosts(page: Int): [Post!]!
+    GetPostById(id: UUID): Post!
+}
+
+type Mutation {
+    CreatePost(title: String!, author: String, content: String!, isCommentAllowed: Boolean!): Post!
+}

@@ -1,0 +1,17 @@
+type Comment {
+    id: UUID!
+    author: String!
+    content: String!
+    postId: UUID!
+    parentCommentId: UUID
+    replies: [Comment!]
+    createdAt: TimeStamp
+}
+
+extend type Mutation {
+    AddComment(author: String!, content: String!, postId: UUID!, parentCommentId: UUID): Comment!
+}
+
+type Subscription {
+    SubOnPost(postId: UUID!): Comment!
+}
