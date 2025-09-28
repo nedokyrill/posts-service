@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/google/uuid"
@@ -23,7 +24,7 @@ func NewCommentService(commStore storage.CommentStorage, postStore storage.PostS
 	}
 }
 
-func (s *CommentServiceImpl) CreateComment(author string, content string, postID uuid.UUID,
+func (s *CommentServiceImpl) CreateComment(ctx context.Context, author string, content string, postID uuid.UUID,
 	parentCommentID *uuid.UUID) (*models.Comment, error) {
 	if len(author) == 0 {
 		logger.Logger.Error("comment must have a author")
@@ -37,7 +38,7 @@ func (s *CommentServiceImpl) CreateComment(author string, content string, postID
 			consts.ContentMaxLen), Type: consts.BadRequestType}
 	}
 
-	post, err := s.postStore.GetPostByID(postID)
+	post, err := s.postStore.GetPostByID(ctx, postID)
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("post with id: %s does not exist, error: %v",
 			postID.String(), err))
@@ -53,7 +54,7 @@ func (s *CommentServiceImpl) CreateComment(author string, content string, postID
 
 	}
 
-	newComm, err := s.commStore.CreateComment(models.Comment{Author: author, Content: content, PostID: postID,
+	newComm, err := s.commStore.CreateComment(ctx, models.Comment{Author: author, Content: content, PostID: postID,
 		ParentCommentID: parentCommentID})
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("error creating comment: %v", err))
@@ -63,7 +64,7 @@ func (s *CommentServiceImpl) CreateComment(author string, content string, postID
 	logger.Logger.Info(fmt.Sprintf("create comment with id: %s successfully", newComm.ID.String()))
 	return &newComm, nil
 }
-func (s *CommentServiceImpl) GetCommentsByPostID(postID uuid.UUID, page *int32) ([]*models.Comment, error) {
+func (s *CommentServiceImpl) GetCommentsByPostID(ctx context.Context, postID uuid.UUID, page *int32) ([]*models.Comment, error) {
 	if page == nil || *page <= 0 {
 		logger.Logger.Error("page must be greater than zero")
 
@@ -72,7 +73,7 @@ func (s *CommentServiceImpl) GetCommentsByPostID(postID uuid.UUID, page *int32) 
 
 	offset, limit := utils.GetOffsetNLimit(page, consts.PageSize)
 
-	comments, err := s.commStore.GetCommentsByPostID(postID, offset, limit)
+	comments, err := s.commStore.GetCommentsByPostID(ctx, postID, offset, limit)
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("error getting comments: %v", err))
 		return nil, utils.GqlError{Msg: "error getting comments", Type: consts.InternalServerErrorType}
@@ -81,8 +82,8 @@ func (s *CommentServiceImpl) GetCommentsByPostID(postID uuid.UUID, page *int32) 
 	logger.Logger.Info(fmt.Sprintf("get comments by postId: %s successfully", postID.String()))
 	return comments, nil
 }
-func (s *CommentServiceImpl) GetRepliesByComment(commentID uuid.UUID) ([]*models.Comment, error) {
-	replies, err := s.commStore.GetRepliesByComment(commentID)
+func (s *CommentServiceImpl) GetRepliesByComment(ctx context.Context, commentID uuid.UUID) ([]*models.Comment, error) {
+	replies, err := s.commStore.GetRepliesByComment(ctx, commentID)
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("error getting comments: %v", err))
 		return nil, utils.GqlError{Msg: "error getting comments", Type: consts.InternalServerErrorType}

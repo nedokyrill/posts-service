@@ -19,14 +19,14 @@ func NewCommentsStorePgx(db *pgxpool.Pool) *CommentsStorePgx {
 	}
 }
 
-func (s *CommentsStorePgx) CreateComment(comment models.Comment) (models.Comment, error) {
+func (s *CommentsStorePgx) CreateComment(ctx context.Context, comment models.Comment) (models.Comment, error) {
 	query := `INSERT INTO comments (author, content, post_id, parent_comment_id)
 				VALUES ($1, $2, $3, $4) RETURNING id, created_at;`
 
 	var id uuid.UUID
 	var createdAt time.Time
 
-	err := s.db.QueryRow(context.Background(), query, comment.Author, comment.Content, comment.PostID,
+	err := s.db.QueryRow(ctx, query, comment.Author, comment.Content, comment.PostID,
 		comment.ParentCommentID).Scan(&id, &createdAt)
 	if err != nil {
 		return models.Comment{}, err
@@ -37,12 +37,12 @@ func (s *CommentsStorePgx) CreateComment(comment models.Comment) (models.Comment
 	return comment, nil
 }
 
-func (s *CommentsStorePgx) GetCommentsByPostID(postID uuid.UUID, offset, limit int) ([]*models.Comment, error) {
+func (s *CommentsStorePgx) GetCommentsByPostID(ctx context.Context, postID uuid.UUID, offset, limit int) ([]*models.Comment, error) {
 	var comments []*models.Comment
 	query := `SELECT * FROM comments WHERE post_id = $1 AND parent_comment_id IS NULL 
          		ORDER BY created_at DESC LIMIT $2 OFFSET $3;`
 
-	rows, err := s.db.Query(context.Background(), query, postID, limit, offset)
+	rows, err := s.db.Query(ctx, query, postID, limit, offset)
 	if err != nil {
 		return nil, err
 	}
@@ -64,11 +64,11 @@ func (s *CommentsStorePgx) GetCommentsByPostID(postID uuid.UUID, offset, limit i
 }
 
 // слишком много одинакового кода, но решил не выносить в отдельный метод, так как используется всего в двух методах
-func (s *CommentsStorePgx) GetRepliesByComment(parentCommentID uuid.UUID) ([]*models.Comment, error) {
+func (s *CommentsStorePgx) GetRepliesByComment(ctx context.Context, parentCommentID uuid.UUID) ([]*models.Comment, error) {
 	var replies []*models.Comment
 	query := `SELECT * FROM comments WHERE parent_comment_id = $1 ORDER BY created_at;`
 
-	rows, err := s.db.Query(context.Background(), query, parentCommentID)
+	rows, err := s.db.Query(ctx, query, parentCommentID)
 	if err != nil {
 		return nil, err
 	}

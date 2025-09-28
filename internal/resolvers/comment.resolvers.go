@@ -17,7 +17,7 @@ import (
 
 // Replies is the resolver for the replies field.
 func (r *commentResolver) Replies(ctx context.Context, obj *models.Comment) ([]*models.Comment, error) {
-	comments, err := r.CommentService.GetRepliesByComment(obj.ID)
+	comments, err := r.CommentService.GetRepliesByComment(ctx, obj.ID)
 	if err != nil {
 		var errr utils.GqlError
 		errors.As(err, &errr)
@@ -30,14 +30,14 @@ func (r *commentResolver) Replies(ctx context.Context, obj *models.Comment) ([]*
 // AddComment is the resolver for the AddComment field.
 func (r *mutationResolver) AddComment(ctx context.Context, author string, content string, postID uuid.UUID,
 	parentCommentID *uuid.UUID) (*models.Comment, error) {
-	comment, err := r.CommentService.CreateComment(author, content, postID, parentCommentID)
+	comment, err := r.CommentService.CreateComment(ctx, author, content, postID, parentCommentID)
 	if err != nil {
 		var errr utils.GqlError
 		errors.As(err, &errr)
 		return nil, &gqlerror.Error{Extensions: errr.Extensions()}
 	}
 
-	if err = r.ViewerService.NotifyViewers(postID, *comment); err != nil {
+	if err = r.ViewerService.NotifyViewers(ctx, postID, *comment); err != nil {
 		var errr utils.GqlError
 		errors.As(err, &errr)
 		return nil, &gqlerror.Error{Extensions: errr.Extensions()}
@@ -48,7 +48,7 @@ func (r *mutationResolver) AddComment(ctx context.Context, author string, conten
 
 // SubOnPost is the resolver for the SubOnPost field.
 func (r *subscriptionResolver) SubOnPost(ctx context.Context, postID uuid.UUID) (<-chan *models.Comment, error) {
-	id, ch, err := r.ViewerService.CreateViewer(postID)
+	id, ch, err := r.ViewerService.CreateViewer(ctx, postID)
 	if err != nil {
 		var errr utils.GqlError
 		errors.As(err, &errr)
@@ -58,7 +58,7 @@ func (r *subscriptionResolver) SubOnPost(ctx context.Context, postID uuid.UUID) 
 	errCh := make(chan utils.GqlError)
 	go func() {
 		<-ctx.Done()
-		err = r.ViewerService.DeleteViewer(postID, id)
+		err = r.ViewerService.DeleteViewer(ctx, postID, id)
 		if err != nil {
 			var errr utils.GqlError
 			errors.As(err, &errr)

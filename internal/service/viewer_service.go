@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"fmt"
 	"sync"
 	"time"
@@ -32,21 +33,20 @@ func NewViewerService() *ViewerServiceImpl {
 }
 
 // добавляем подписчика
-func (s *ViewerServiceImpl) CreateViewer(postId uuid.UUID) (int, chan *models.Comment, error) {
+func (s *ViewerServiceImpl) CreateViewer(_ context.Context, postId uuid.UUID) (int, chan *models.Comment, error) {
 	s.mu.Lock()
+	defer s.mu.Unlock()
 
 	comm := make(chan *models.Comment)
 	s.viewers[postId] = append(s.viewers[postId], Viewer{ch: comm, id: s.cnt})
 	s.cnt++
-
-	s.mu.Unlock()
 
 	logger.Logger.Infof("create viewer for post id %s", postId.String())
 	return s.cnt, comm, nil
 }
 
 // удаляем подписчика из пула при закрытии подписки
-func (s *ViewerServiceImpl) DeleteViewer(postId uuid.UUID, id int) error {
+func (s *ViewerServiceImpl) DeleteViewer(_ context.Context, postId uuid.UUID, id int) error {
 	s.mu.Lock()
 
 	viewers, ok := s.viewers[postId]
@@ -59,6 +59,8 @@ func (s *ViewerServiceImpl) DeleteViewer(postId uuid.UUID, id int) error {
 	for i, viewer := range viewers {
 		if viewer.id == id {
 			s.viewers[postId] = append(viewers[:i], viewers[i+1:]...)
+			close(viewer.ch)
+			break
 		}
 	}
 
@@ -69,7 +71,7 @@ func (s *ViewerServiceImpl) DeleteViewer(postId uuid.UUID, id int) error {
 }
 
 // отправляем уведомление в виде комментария всем подписчикам
-func (s *ViewerServiceImpl) NotifyViewers(postId uuid.UUID, comm models.Comment) error {
+func (s *ViewerServiceImpl) NotifyViewers(ctx context.Context, postId uuid.UUID, comm models.Comment) error {
 	s.mu.Lock()
 
 	viewers, ok := s.viewers[postId]
@@ -87,6 +89,8 @@ func (s *ViewerServiceImpl) NotifyViewers(postId uuid.UUID, comm models.Comment)
 	for _, v := range snap {
 		select { // селект для неблокирующей отправки (канал для нотификаций может быть закрыт или заполнен)
 		case v.ch <- &comm: // отправляем нотификацию
+		case <-ctx.Done():
+			logger.Logger.Info("context canceled")
 		case <-time.After(500 * time.Millisecond): // если за 500мс канал не освободился, логируем айдишник и пропускаем
 			logger.Logger.Error(fmt.Sprintf("viewer with id: %v, channel full", v.id))
 		}

@@ -18,7 +18,7 @@ import (
 // CreatePost is the resolver for the CreatePost field.
 func (r *mutationResolver) CreatePost(ctx context.Context, title string, author *string, content string,
 	isCommentAllowed bool) (*models.Post, error) {
-	post, err := r.PostService.CreatePost(title, author, content, isCommentAllowed)
+	post, err := r.PostService.CreatePost(ctx, title, author, content, isCommentAllowed)
 	if err != nil {
 		var errr utils.GqlError
 		errors.As(err, &errr)
@@ -30,7 +30,7 @@ func (r *mutationResolver) CreatePost(ctx context.Context, title string, author 
 
 // Comments is the resolver for the comments field.
 func (r *postResolver) Comments(ctx context.Context, obj *models.Post, page *int32) ([]*models.Comment, error) {
-	comments, err := r.CommentService.GetCommentsByPostID(obj.ID, page)
+	comments, err := r.CommentService.GetCommentsByPostID(ctx, obj.ID, page)
 	if err != nil {
 		var errr utils.GqlError
 		errors.As(err, &errr)
@@ -41,7 +41,7 @@ func (r *postResolver) Comments(ctx context.Context, obj *models.Post, page *int
 
 // GetAllPosts is the resolver for the GetAllPosts field.
 func (r *queryResolver) GetAllPosts(ctx context.Context, page *int32) ([]*models.Post, error) {
-	posts, err := r.PostService.GetAllPosts(page)
+	posts, err := r.PostService.GetAllPosts(ctx, page)
 	if err != nil {
 		var errr utils.GqlError
 		errors.As(err, &errr)
@@ -53,7 +53,7 @@ func (r *queryResolver) GetAllPosts(ctx context.Context, page *int32) ([]*models
 
 // GetPostByID is the resolver for the GetPostById field.
 func (r *queryResolver) GetPostByID(ctx context.Context, id *uuid.UUID) (*models.Post, error) {
-	post, err := r.PostService.GetPostByID(id)
+	post, err := r.PostService.GetPostByID(ctx, id)
 	if err != nil {
 		var errr utils.GqlError
 		errors.As(err, &errr)

@@ -5,3 +5,30 @@
 {"level":"info","timestamp":"2025-09-27T22:32:26.156+0300","caller":"db/connectToDb.go:17","msg":"Connected to Postgres successfully","pid":167948}
 {"level":"info","timestamp":"2025-09-28T02:29:36.280+0300","caller":"db/connectToDb.go:17","msg":"Connected to Postgres successfully","pid":259846}
 {"level":"info","timestamp":"2025-09-28T02:39:36.505+0300","caller":"db/connectToDb.go:17","msg":"Connected to Postgres successfully","pid":265646}
+{"level":"error","timestamp":"2025-09-28T12:22:51.050+0300","caller":"db/connect_to_db.go:20","msg":"Unable to ping database: failed to connect to `user=nedokyrill database=`: /var/run/postgresql/.s.PGSQL.5432 (/var/run/postgresql): server error: FATAL: role \"nedokyrill\" does not exist (SQLSTATE 28000)\n","pid":17144}
+{"level":"fatal","timestamp":"2025-09-28T12:22:51.050+0300","caller":"app/app.go:28","msg":"failed to connect to `user=nedokyrill database=`: /var/run/postgresql/.s.PGSQL.5432 (/var/run/postgresql): server error: FATAL: role \"nedokyrill\" does not exist (SQLSTATE 28000)","pid":17144}
+{"level":"info","timestamp":"2025-09-28T12:23:20.693+0300","caller":"db/connect_to_db.go:24","msg":"Connected to Postgres successfully","pid":17630}
+{"level":"error","timestamp":"2025-09-28T12:25:03.120+0300","caller":"db/connect_to_db.go:20","msg":"Unable to ping database: failed to connect to `user=nedokyrill database=`: /var/run/postgresql/.s.PGSQL.5432 (/var/run/postgresql): server error: FATAL: role \"nedokyrill\" does not exist (SQLSTATE 28000)\n","pid":19186}
+{"level":"fatal","timestamp":"2025-09-28T12:25:03.120+0300","caller":"app/app.go:28","msg":"Error connecting to database, exiting...","pid":19186}
+{"level":"info","timestamp":"2025-09-28T12:26:08.297+0300","caller":"db/connect_to_db.go:24","msg":"Connected to Postgres successfully","pid":20638}
+{"level":"info","timestamp":"2025-09-28T12:26:15.166+0300","caller":"db/connect_to_db.go:24","msg":"Connected to Postgres successfully","pid":20784}
+{"level":"info","timestamp":"2025-09-28T12:26:46.055+0300","caller":"db/connect_to_db.go:24","msg":"Connected to Postgres successfully","pid":21301}
+{"level":"info","timestamp":"2025-09-28T12:26:46.055+0300","caller":"app/app.go:33","msg":"Connected to Database successfully","pid":21301}
+{"level":"info","timestamp":"2025-09-28T12:27:49.798+0300","caller":"app/app.go:24","msg":"Using postgres storage","pid":22371}
+{"level":"info","timestamp":"2025-09-28T12:27:49.802+0300","caller":"db/connect_to_db.go:24","msg":"Connected to Postgres successfully","pid":22371}
+{"level":"info","timestamp":"2025-09-28T12:51:14.932+0300","caller":"app/app.go:24","msg":"Using postgres storage","pid":41491}
+{"level":"info","timestamp":"2025-09-28T12:51:14.936+0300","caller":"db/connect_to_db.go:24","msg":"Connected to Postgres successfully","pid":41491}
+{"level":"info","timestamp":"2025-09-28T12:51:20.529+0300","caller":"app/app.go:24","msg":"Using postgres storage","pid":41639}
+{"level":"info","timestamp":"2025-09-28T12:51:20.533+0300","caller":"db/connect_to_db.go:24","msg":"Connected to Postgres successfully","pid":41639}
+{"level":"info","timestamp":"2025-09-28T14:10:56.287+0300","caller":"app/app.go:49","msg":"Using postgres storage","pid":115698}
+{"level":"info","timestamp":"2025-09-28T14:10:56.290+0300","caller":"db/connect_to_db.go:24","msg":"Connected to Postgres successfully","pid":115698}
+{"level":"info","timestamp":"2025-09-28T14:11:14.026+0300","caller":"app/app.go:100","msg":"Shutting down server...","pid":115698}
+{"level":"info","timestamp":"2025-09-28T14:11:14.026+0300","caller":"server/server.go:44","msg":"Shutdown completed before timeout.","pid":115698}
+{"level":"info","timestamp":"2025-09-28T14:11:54.194+0300","caller":"app/app.go:49","msg":"Using postgres storage","pid":116608}
+{"level":"info","timestamp":"2025-09-28T14:11:54.197+0300","caller":"db/connect_to_db.go:24","msg":"Connected to Postgres successfully","pid":116608}
+{"level":"info","timestamp":"2025-09-28T14:15:51.710+0300","caller":"app/app.go:100","msg":"Shutting down server...","pid":116608}
+{"level":"info","timestamp":"2025-09-28T14:15:51.711+0300","caller":"server/server.go:44","msg":"Shutdown completed before timeout.","pid":116608}
+{"level":"info","timestamp":"2025-09-28T14:25:17.235+0300","caller":"app/app.go:49","msg":"using postgres storage","pid":127384}
+{"level":"info","timestamp":"2025-09-28T14:25:17.238+0300","caller":"db/connect_to_db.go:24","msg":"Connected to Postgres successfully","pid":127384}
+{"level":"info","timestamp":"2025-09-28T14:25:21.816+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":127384}
+{"level":"info","timestamp":"2025-09-28T14:25:21.816+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":127384}

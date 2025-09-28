@@ -1,6 +1,7 @@
 package mem
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"sync"
@@ -12,17 +13,17 @@ import (
 )
 
 type PostStorageMem struct {
-	posts []models.Post
+	posts []*models.Post
 	mu    sync.RWMutex
 }
 
 func NewPostStorageMem() *PostStorageMem {
 	return &PostStorageMem{
-		posts: make([]models.Post, consts.InitPostsSizeInMem),
+		posts: make([]*models.Post, consts.InitPostsSizeInMem),
 	}
 }
 
-func (s *PostStorageMem) GetAllPosts(offset, limit int) ([]models.Post, error) {
+func (s *PostStorageMem) GetAllPosts(_ context.Context, offset, limit int) ([]*models.Post, error) {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
@@ -37,7 +38,7 @@ func (s *PostStorageMem) GetAllPosts(offset, limit int) ([]models.Post, error) {
 	return s.posts[offset : offset+limit], nil
 }
 
-func (s *PostStorageMem) CreatePost(post models.Post) (models.Post, error) {
+func (s *PostStorageMem) CreatePost(_ context.Context, post models.Post) (models.Post, error) {
 	now := time.Now()
 	post.ID = uuid.New()
 	post.CreatedAt = &now
@@ -45,11 +46,11 @@ func (s *PostStorageMem) CreatePost(post models.Post) (models.Post, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	s.posts = append(s.posts, post)
+	s.posts = append(s.posts, &post)
 	return post, nil
 }
 
-func (s *PostStorageMem) GetPostByID(postId uuid.UUID) (models.Post, error) {
+func (s *PostStorageMem) GetPostByID(_ context.Context, postId uuid.UUID) (*models.Post, error) {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
@@ -59,5 +60,5 @@ func (s *PostStorageMem) GetPostByID(postId uuid.UUID) (models.Post, error) {
 		}
 	}
 
-	return models.Post{}, errors.New(fmt.Sprintf("Post with id: %s not found", postId.String()))
+	return &models.Post{}, errors.New(fmt.Sprintf("Post with id: %s not found", postId.String()))
 }

@@ -1,6 +1,7 @@
 package mem
 
 import (
+	"context"
 	"sync"
 	"time"
 
@@ -20,7 +21,7 @@ func NewCommentsStorageMem() *CommentsStorageMem {
 	}
 }
 
-func (s *CommentsStorageMem) CreateComment(comment models.Comment) (models.Comment, error) {
+func (s *CommentsStorageMem) CreateComment(_ context.Context, comment models.Comment) (models.Comment, error) {
 	now := time.Now()
 	comment.ID = uuid.New()
 	comment.CreatedAt = &now
@@ -31,7 +32,8 @@ func (s *CommentsStorageMem) CreateComment(comment models.Comment) (models.Comme
 	s.comms = append(s.comms, comment)
 	return comment, nil
 }
-func (s *CommentsStorageMem) GetCommentsByPostID(postID uuid.UUID, offset, limit int) ([]*models.Comment, error) {
+func (s *CommentsStorageMem) GetCommentsByPostID(_ context.Context, postID uuid.UUID,
+	offset, limit int) ([]*models.Comment, error) {
 	comments := make([]*models.Comment, 0)
 
 	s.mu.RLock()
@@ -53,7 +55,7 @@ func (s *CommentsStorageMem) GetCommentsByPostID(postID uuid.UUID, offset, limit
 
 	return comments[offset : offset+limit], nil
 }
-func (s *CommentsStorageMem) GetRepliesByComment(parentCommentID uuid.UUID) ([]*models.Comment, error) {
+func (s *CommentsStorageMem) GetRepliesByComment(_ context.Context, parentCommentID uuid.UUID) ([]*models.Comment, error) {
 	comments := make([]*models.Comment, 0)
 
 	s.mu.RLock()

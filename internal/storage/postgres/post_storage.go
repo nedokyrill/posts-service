@@ -19,12 +19,12 @@ func NewPostStorePgx(db *pgxpool.Pool) *PostStorePgx {
 	}
 }
 
-func (s *PostStorePgx) GetAllPosts(offset, limit int) ([]*models.Post, error) {
+func (s *PostStorePgx) GetAllPosts(ctx context.Context, offset, limit int) ([]*models.Post, error) {
 	var posts []*models.Post
 
 	query := `SELECT * FROM posts ORDER BY id DESC LIMIT $1 OFFSET $2;`
 
-	rows, err := s.db.Query(context.Background(), query, limit, offset)
+	rows, err := s.db.Query(ctx, query, limit, offset)
 	if err != nil {
 		return nil, err
 	}
@@ -45,14 +45,14 @@ func (s *PostStorePgx) GetAllPosts(offset, limit int) ([]*models.Post, error) {
 	return posts, nil
 }
 
-func (s *PostStorePgx) CreatePost(post models.Post) (models.Post, error) {
+func (s *PostStorePgx) CreatePost(ctx context.Context, post models.Post) (models.Post, error) {
 	query := `INSERT INTO posts (title, content, author, is_comments_allowed) 
 				VALUES ($1, $2, $3, $4) RETURNING id, created_at;`
 
 	var id uuid.UUID
 	var createdAt time.Time
 
-	err := s.db.QueryRow(context.Background(), query, post.Title, post.Content, post.Author,
+	err := s.db.QueryRow(ctx, query, post.Title, post.Content, post.Author,
 		post.IsCommentsAllowed).Scan(&id, &createdAt)
 	if err != nil {
 		return models.Post{}, err
@@ -63,11 +63,11 @@ func (s *PostStorePgx) CreatePost(post models.Post) (models.Post, error) {
 	return post, nil
 }
 
-func (s *PostStorePgx) GetPostByID(postId uuid.UUID) (*models.Post, error) {
+func (s *PostStorePgx) GetPostByID(ctx context.Context, postId uuid.UUID) (*models.Post, error) {
 	var post models.Post
 
 	query := `SELECT * FROM posts WHERE id = $1;`
-	err := s.db.QueryRow(context.Background(), query, postId).Scan(&post.ID, &post.Title, &post.Content, &post.Author,
+	err := s.db.QueryRow(ctx, query, postId).Scan(&post.ID, &post.Title, &post.Content, &post.Author,
 		&post.IsCommentsAllowed, &post.CreatedAt)
 	if err != nil {
 		return nil, err
