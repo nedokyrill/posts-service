@@ -75,11 +75,9 @@ func (s *ViewerServiceImpl) NotifyViewers(ctx context.Context, postId uuid.UUID,
 	s.mu.Lock()
 
 	viewers, ok := s.viewers[postId]
-	if !ok {
+	if !ok { // подписчиков на данный пост нет
 		s.mu.Unlock()
-		logger.Logger.Error(fmt.Sprintf("no post with postId: %s", postId.String()))
-		return utils.GqlError{Msg: fmt.Sprintf("no post with postId: %s", postId.String()),
-			Type: consts.BadRequestType}
+		return nil
 	}
 
 	snap := make([]Viewer, len(viewers))
@@ -96,6 +94,6 @@ func (s *ViewerServiceImpl) NotifyViewers(ctx context.Context, postId uuid.UUID,
 		}
 	}
 
-	logger.Logger.Info(fmt.Sprintf("notify viewer for postId %s successfully", postId.String()))
+	logger.Logger.Info(fmt.Sprintf("notify viewers for postId %s successfully", postId.String()))
 	return nil
 }

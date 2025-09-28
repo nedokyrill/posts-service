@@ -23,7 +23,7 @@ func NewPostService(store storage.PostStorage) *PostServiceImpl {
 }
 
 func (s *PostServiceImpl) GetAllPosts(ctx context.Context, page *int32) ([]*models.Post, error) {
-	if page == nil || *page <= 0 {
+	if page != nil && *page <= 0 {
 		logger.Logger.Error("page must be greater than zero")
 		return nil, utils.GqlError{Msg: "page must be greater than zero", Type: consts.BadRequestType}
 
@@ -40,8 +40,8 @@ func (s *PostServiceImpl) GetAllPosts(ctx context.Context, page *int32) ([]*mode
 	logger.Logger.Info("get all posts successfully")
 	return posts, nil
 }
-func (s *PostServiceImpl) GetPostByID(ctx context.Context, id *uuid.UUID) (*models.Post, error) {
-	post, err := s.store.GetPostByID(ctx, *id)
+func (s *PostServiceImpl) GetPostByID(ctx context.Context, id uuid.UUID) (*models.Post, error) {
+	post, err := s.store.GetPostByID(ctx, id)
 
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("post with id: %s not found, err: %v", id.String(), err))

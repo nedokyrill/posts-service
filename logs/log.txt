@@ -32,3 +32,163 @@
 {"level":"info","timestamp":"2025-09-28T14:25:17.238+0300","caller":"db/connect_to_db.go:24","msg":"Connected to Postgres successfully","pid":127384}
 {"level":"info","timestamp":"2025-09-28T14:25:21.816+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":127384}
 {"level":"info","timestamp":"2025-09-28T14:25:21.816+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":127384}
+{"level":"info","timestamp":"2025-09-28T14:54:54.106+0300","caller":"app/app.go:49","msg":"using postgres storage","pid":3746}
+{"level":"info","timestamp":"2025-09-28T14:54:54.114+0300","caller":"db/connect_to_db.go:24","msg":"connected to Postgres successfully","pid":3746}
+{"level":"info","timestamp":"2025-09-28T14:56:08.370+0300","caller":"service/post_service.go:74","msg":"create post with id: 3c1f8dd3-5043-4ae3-b24a-9d4d79483a71 successfully","pid":3746}
+{"level":"info","timestamp":"2025-09-28T14:56:39.701+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":3746}
+{"level":"info","timestamp":"2025-09-28T14:56:49.900+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":3746}
+{"level":"info","timestamp":"2025-09-28T14:57:14.724+0300","caller":"service/post_service.go:52","msg":"get post with id: 3c1f8dd3-5043-4ae3-b24a-9d4d79483a71 successfully","pid":3746}
+{"level":"info","timestamp":"2025-09-28T14:57:14.726+0300","caller":"service/comment_service.go:82","msg":"get comments by postId: 3c1f8dd3-5043-4ae3-b24a-9d4d79483a71 successfully","pid":3746}
+{"level":"info","timestamp":"2025-09-28T14:57:30.987+0300","caller":"service/post_service.go:52","msg":"get post with id: 3c1f8dd3-5043-4ae3-b24a-9d4d79483a71 successfully","pid":3746}
+{"level":"info","timestamp":"2025-09-28T14:58:53.744+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":3746}
+{"level":"info","timestamp":"2025-09-28T14:58:53.744+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":3746}
+{"level":"info","timestamp":"2025-09-28T14:59:04.300+0300","caller":"app/app.go:45","msg":"using memory storage","pid":7260}
+{"level":"info","timestamp":"2025-09-28T14:59:11.011+0300","caller":"service/post_service.go:74","msg":"create post with id: e00348aa-ecd8-4290-8ac2-ec9b2d9495db successfully","pid":7260}
+{"level":"info","timestamp":"2025-09-28T14:59:23.643+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":7260}
+{"level":"info","timestamp":"2025-09-28T14:59:58.471+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":7260}
+{"level":"info","timestamp":"2025-09-28T14:59:58.471+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":7260}
+{"level":"info","timestamp":"2025-09-28T15:00:37.544+0300","caller":"app/app.go:45","msg":"using memory storage","pid":8681}
+{"level":"info","timestamp":"2025-09-28T15:00:39.752+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":8681}
+{"level":"info","timestamp":"2025-09-28T15:00:44.663+0300","caller":"service/post_service.go:74","msg":"create post with id: d7737f24-d57c-4209-8107-1e8460d725ec successfully","pid":8681}
+{"level":"info","timestamp":"2025-09-28T15:00:47.859+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":8681}
+{"level":"info","timestamp":"2025-09-28T15:01:05.256+0300","caller":"service/post_service.go:74","msg":"create post with id: 1efa61d0-0eba-453b-94bc-8efd720952c6 successfully","pid":8681}
+{"level":"info","timestamp":"2025-09-28T15:01:08.112+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":8681}
+{"level":"info","timestamp":"2025-09-28T15:02:50.290+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":8681}
+{"level":"info","timestamp":"2025-09-28T15:03:34.015+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":8681}
+{"level":"info","timestamp":"2025-09-28T15:03:34.016+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":8681}
+{"level":"info","timestamp":"2025-09-28T15:05:15.727+0300","caller":"app/app.go:45","msg":"using memory storage","pid":13519}
+{"level":"info","timestamp":"2025-09-28T15:05:33.799+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":13519}
+{"level":"info","timestamp":"2025-09-28T15:05:38.473+0300","caller":"service/post_service.go:74","msg":"create post with id: 0e254443-aefb-40bf-bd3d-22559b41676d successfully","pid":13519}
+{"level":"info","timestamp":"2025-09-28T15:05:41.287+0300","caller":"service/post_service.go:74","msg":"create post with id: 42c150bb-8cb1-4d3b-b5b8-046c3a563adf successfully","pid":13519}
+{"level":"info","timestamp":"2025-09-28T15:05:44.334+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":13519}
+{"level":"info","timestamp":"2025-09-28T15:05:57.697+0300","caller":"service/post_service.go:52","msg":"get post with id: 0e254443-aefb-40bf-bd3d-22559b41676d successfully","pid":13519}
+{"level":"info","timestamp":"2025-09-28T15:06:51.251+0300","caller":"service/comment_service.go:64","msg":"create comment with id: 736550f5-ba96-4a88-b4ff-fdcfd4be02d2 successfully","pid":13519}
+{"level":"error","timestamp":"2025-09-28T15:06:51.251+0300","caller":"service/viewer_service.go:80","msg":"no post with postId: 0e254443-aefb-40bf-bd3d-22559b41676d","pid":13519}
+{"level":"info","timestamp":"2025-09-28T15:07:50.867+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":13519}
+{"level":"error","timestamp":"2025-09-28T15:08:36.019+0300","caller":"service/post_service.go:47","msg":"post with id: 123e4567-e89b-12d3-a456-426614174000 not found, err: Post with id: 123e4567-e89b-12d3-a456-426614174000 not found","pid":13519}
+{"level":"info","timestamp":"2025-09-28T15:08:53.176+0300","caller":"service/post_service.go:52","msg":"get post with id: 0e254443-aefb-40bf-bd3d-22559b41676d successfully","pid":13519}
+{"level":"info","timestamp":"2025-09-28T15:08:53.176+0300","caller":"service/comment_service.go:82","msg":"get comments by postId: 0e254443-aefb-40bf-bd3d-22559b41676d successfully","pid":13519}
+{"level":"info","timestamp":"2025-09-28T15:09:28.216+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":13519}
+{"level":"info","timestamp":"2025-09-28T15:09:28.216+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":13519}
+{"level":"info","timestamp":"2025-09-28T15:10:10.361+0300","caller":"app/app.go:45","msg":"using memory storage","pid":17683}
+{"level":"error","timestamp":"2025-09-28T15:10:16.281+0300","caller":"service/post_service.go:47","msg":"post with id: 0e254443-aefb-40bf-bd3d-22559b41676d not found, err: Post with id: 0e254443-aefb-40bf-bd3d-22559b41676d not found","pid":17683}
+{"level":"info","timestamp":"2025-09-28T15:10:29.445+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":17683}
+{"level":"info","timestamp":"2025-09-28T15:10:29.445+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":17683}
+{"level":"info","timestamp":"2025-09-28T15:40:52.873+0300","caller":"app/app.go:45","msg":"using memory storage","pid":42835}
+{"level":"info","timestamp":"2025-09-28T15:41:23.153+0300","caller":"service/post_service.go:74","msg":"create post with id: 517c0555-224e-4472-b545-3156c4cbe1a3 successfully","pid":42835}
+{"level":"info","timestamp":"2025-09-28T15:41:29.422+0300","caller":"service/post_service.go:74","msg":"create post with id: b8555b3d-993c-492a-a66a-b7708ea7d282 successfully","pid":42835}
+{"level":"error","timestamp":"2025-09-28T15:42:41.537+0300","caller":"service/post_service.go:27","msg":"page must be greater than zero","pid":42835}
+{"level":"info","timestamp":"2025-09-28T15:43:05.260+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":42835}
+{"level":"info","timestamp":"2025-09-28T15:43:05.260+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":42835}
+{"level":"info","timestamp":"2025-09-28T15:44:02.500+0300","caller":"app/app.go:45","msg":"using memory storage","pid":45556}
+{"level":"info","timestamp":"2025-09-28T15:44:49.466+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":45556}
+{"level":"info","timestamp":"2025-09-28T15:44:49.466+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":45556}
+{"level":"info","timestamp":"2025-09-28T15:44:51.853+0300","caller":"app/app.go:45","msg":"using memory storage","pid":46317}
+{"level":"info","timestamp":"2025-09-28T15:44:53.570+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":46317}
+{"level":"error","timestamp":"2025-09-28T15:45:03.648+0300","caller":"service/post_service.go:27","msg":"page must be greater than zero","pid":46317}
+{"level":"info","timestamp":"2025-09-28T15:45:08.888+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":46317}
+{"level":"info","timestamp":"2025-09-28T15:45:34.960+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":46317}
+{"level":"info","timestamp":"2025-09-28T15:46:14.220+0300","caller":"service/post_service.go:74","msg":"create post with id: 75f1cfb9-2d94-44fe-bc20-2ddc98a2a7a2 successfully","pid":46317}
+{"level":"info","timestamp":"2025-09-28T15:46:17.686+0300","caller":"service/post_service.go:74","msg":"create post with id: f703d56d-7b5c-4b70-85a7-21ea439d4811 successfully","pid":46317}
+{"level":"info","timestamp":"2025-09-28T15:46:19.744+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":46317}
+{"level":"error","timestamp":"2025-09-28T15:46:24.622+0300","caller":"service/post_service.go:27","msg":"page must be greater than zero","pid":46317}
+{"level":"info","timestamp":"2025-09-28T15:46:33.277+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":46317}
+{"level":"info","timestamp":"2025-09-28T15:46:48.775+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":46317}
+{"level":"info","timestamp":"2025-09-28T15:47:46.318+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":46317}
+{"level":"info","timestamp":"2025-09-28T15:47:52.950+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":46317}
+{"level":"info","timestamp":"2025-09-28T15:50:41.048+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":46317}
+{"level":"info","timestamp":"2025-09-28T15:50:41.049+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":46317}
+{"level":"info","timestamp":"2025-09-28T15:50:43.119+0300","caller":"app/app.go:45","msg":"using memory storage","pid":51134}
+{"level":"info","timestamp":"2025-09-28T15:50:46.917+0300","caller":"service/post_service.go:74","msg":"create post with id: 2709001d-a7af-433b-9f12-f59a98c03ede successfully","pid":51134}
+{"level":"info","timestamp":"2025-09-28T15:50:51.271+0300","caller":"service/post_service.go:74","msg":"create post with id: dfd83e06-8e43-40f4-bee4-14b6847e55e7 successfully","pid":51134}
+{"level":"info","timestamp":"2025-09-28T15:50:53.664+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":51134}
+{"level":"info","timestamp":"2025-09-28T15:50:58.773+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":51134}
+{"level":"info","timestamp":"2025-09-28T15:51:07.792+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":51134}
+{"level":"info","timestamp":"2025-09-28T15:55:25.136+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":51134}
+{"level":"info","timestamp":"2025-09-28T15:56:16.602+0300","caller":"service/post_service.go:52","msg":"get post with id: 2709001d-a7af-433b-9f12-f59a98c03ede successfully","pid":51134}
+{"level":"info","timestamp":"2025-09-28T15:58:27.831+0300","caller":"service/post_service.go:52","msg":"get post with id: 2709001d-a7af-433b-9f12-f59a98c03ede successfully","pid":51134}
+{"level":"error","timestamp":"2025-09-28T15:58:27.831+0300","caller":"service/comment_service.go:69","msg":"page must be greater than zero","pid":51134}
+{"level":"info","timestamp":"2025-09-28T15:58:48.074+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":51134}
+{"level":"info","timestamp":"2025-09-28T15:58:48.074+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":51134}
+{"level":"info","timestamp":"2025-09-28T15:59:44.619+0300","caller":"app/app.go:45","msg":"using memory storage","pid":58564}
+{"level":"info","timestamp":"2025-09-28T15:59:52.665+0300","caller":"service/post_service.go:74","msg":"create post with id: 523e9645-52e4-4510-8f81-b1f3baf9ac64 successfully","pid":58564}
+{"level":"info","timestamp":"2025-09-28T15:59:57.457+0300","caller":"service/post_service.go:74","msg":"create post with id: 6538818a-ae3b-4f9a-9e55-63aa51e72633 successfully","pid":58564}
+{"level":"info","timestamp":"2025-09-28T16:00:02.613+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":58564}
+{"level":"info","timestamp":"2025-09-28T16:02:23.163+0300","caller":"service/comment_service.go:64","msg":"create comment with id: 6f8cc08a-32c0-45bb-8807-71e04b642433 successfully","pid":58564}
+{"level":"error","timestamp":"2025-09-28T16:02:23.163+0300","caller":"service/viewer_service.go:80","msg":"no viewers for post with id: 523e9645-52e4-4510-8f81-b1f3baf9ac64","pid":58564}
+{"level":"info","timestamp":"2025-09-28T16:04:20.342+0300","caller":"app/app.go:45","msg":"using memory storage","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:04:24.427+0300","caller":"service/post_service.go:74","msg":"create post with id: dfd1eeb7-5f29-42a2-9bc2-4d5d807b34be successfully","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:04:28.198+0300","caller":"service/post_service.go:74","msg":"create post with id: b288962f-ce5c-4a9b-984a-e22c147f19dd successfully","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:04:32.251+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:04:56.889+0300","caller":"service/comment_service.go:64","msg":"create comment with id: 91d2099a-9524-4d8d-a1d5-d592237a7539 successfully","pid":62412}
+{"level":"error","timestamp":"2025-09-28T16:04:56.889+0300","caller":"service/viewer_service.go:80","msg":"no viewers for post with id: dfd1eeb7-5f29-42a2-9bc2-4d5d807b34be","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:05:21.472+0300","caller":"service/post_service.go:52","msg":"get post with id: dfd1eeb7-5f29-42a2-9bc2-4d5d807b34be successfully","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:05:45.611+0300","caller":"service/post_service.go:52","msg":"get post with id: dfd1eeb7-5f29-42a2-9bc2-4d5d807b34be successfully","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:05:45.611+0300","caller":"service/comment_service.go:82","msg":"get comments by postId: dfd1eeb7-5f29-42a2-9bc2-4d5d807b34be successfully","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:05:51.618+0300","caller":"service/post_service.go:52","msg":"get post with id: dfd1eeb7-5f29-42a2-9bc2-4d5d807b34be successfully","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:05:51.618+0300","caller":"service/comment_service.go:82","msg":"get comments by postId: dfd1eeb7-5f29-42a2-9bc2-4d5d807b34be successfully","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:06:35.543+0300","caller":"service/viewer_service.go:44","msg":"create viewer for post id 123e4567-e89b-12d3-a456-426614174000","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:07:27.285+0300","caller":"service/comment_service.go:64","msg":"create comment with id: 5bfaecb6-4f46-43d5-98ee-ee1806dc18b1 successfully","pid":62412}
+{"level":"error","timestamp":"2025-09-28T16:07:27.285+0300","caller":"service/viewer_service.go:80","msg":"no viewers for post with id: dfd1eeb7-5f29-42a2-9bc2-4d5d807b34be","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:07:47.019+0300","caller":"service/viewer_service.go:69","msg":"delete viewer for post id 123e4567-e89b-12d3-a456-426614174000","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:07:49.219+0300","caller":"service/viewer_service.go:44","msg":"create viewer for post id 123e4567-e89b-12d3-a456-426614174000","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:08:06.104+0300","caller":"service/comment_service.go:64","msg":"create comment with id: 92558030-fd2a-4c99-a839-41c14bbcaa50 successfully","pid":62412}
+{"level":"error","timestamp":"2025-09-28T16:08:06.104+0300","caller":"service/viewer_service.go:80","msg":"no viewers for post with id: dfd1eeb7-5f29-42a2-9bc2-4d5d807b34be","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:08:18.706+0300","caller":"service/viewer_service.go:69","msg":"delete viewer for post id 123e4567-e89b-12d3-a456-426614174000","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:11:21.511+0300","caller":"service/viewer_service.go:44","msg":"create viewer for post id 123e4567-e89b-12d3-a456-426614174000","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:11:35.671+0300","caller":"service/comment_service.go:64","msg":"create comment with id: fa016177-c008-4004-b786-fd6ae94ecbbb successfully","pid":62412}
+{"level":"error","timestamp":"2025-09-28T16:11:35.671+0300","caller":"service/viewer_service.go:80","msg":"no viewers for post with id: dfd1eeb7-5f29-42a2-9bc2-4d5d807b34be","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:12:07.728+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:12:07.729+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":62412}
+{"level":"info","timestamp":"2025-09-28T16:12:52.416+0300","caller":"app/app.go:45","msg":"using memory storage","pid":69579}
+{"level":"info","timestamp":"2025-09-28T16:13:00.421+0300","caller":"service/post_service.go:74","msg":"create post with id: fa48eb61-8856-4550-be50-6184cad456b3 successfully","pid":69579}
+{"level":"info","timestamp":"2025-09-28T16:13:03.982+0300","caller":"service/post_service.go:74","msg":"create post with id: 6b18b2e7-8da0-4508-a28e-b22c1c362e35 successfully","pid":69579}
+{"level":"info","timestamp":"2025-09-28T16:13:07.193+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":69579}
+{"level":"info","timestamp":"2025-09-28T16:13:18.752+0300","caller":"service/comment_service.go:64","msg":"create comment with id: 778c960f-85c4-4d68-91f0-68c2558c81b6 successfully","pid":69579}
+{"level":"error","timestamp":"2025-09-28T16:13:18.752+0300","caller":"service/viewer_service.go:84","msg":"no viewers for post with id: fa48eb61-8856-4550-be50-6184cad456b3","pid":69579}
+{"level":"info","timestamp":"2025-09-28T16:13:28.335+0300","caller":"service/post_service.go:52","msg":"get post with id: fa48eb61-8856-4550-be50-6184cad456b3 successfully","pid":69579}
+{"level":"info","timestamp":"2025-09-28T16:13:28.335+0300","caller":"service/comment_service.go:82","msg":"get comments by postId: fa48eb61-8856-4550-be50-6184cad456b3 successfully","pid":69579}
+{"level":"info","timestamp":"2025-09-28T16:13:43.455+0300","caller":"service/viewer_service.go:46","msg":"create viewer for post id 123e4567-e89b-12d3-a456-426614174000","pid":69579}
+{"level":"error","timestamp":"2025-09-28T16:14:03.944+0300","caller":"service/comment_service.go:43","msg":"post with id: dfd1eeb7-5f29-42a2-9bc2-4d5d807b34be does not exist, error: Post with id: dfd1eeb7-5f29-42a2-9bc2-4d5d807b34be not found","pid":69579}
+{"level":"info","timestamp":"2025-09-28T16:14:13.000+0300","caller":"service/comment_service.go:64","msg":"create comment with id: 1a6272d8-1e76-4a79-9c7c-909503132d65 successfully","pid":69579}
+{"level":"error","timestamp":"2025-09-28T16:14:13.000+0300","caller":"service/viewer_service.go:84","msg":"no viewers for post with id: fa48eb61-8856-4550-be50-6184cad456b3","pid":69579}
+{"level":"info","timestamp":"2025-09-28T16:14:28.515+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":69579}
+{"level":"info","timestamp":"2025-09-28T16:14:28.515+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":69579}
+{"level":"info","timestamp":"2025-09-28T16:22:09.732+0300","caller":"app/app.go:45","msg":"using memory storage","pid":77110}
+{"level":"info","timestamp":"2025-09-28T16:22:18.008+0300","caller":"service/post_service.go:74","msg":"create post with id: b7d8aa86-488f-4b04-b752-8bce628b2f67 successfully","pid":77110}
+{"level":"info","timestamp":"2025-09-28T16:22:20.979+0300","caller":"service/post_service.go:74","msg":"create post with id: 3f701f26-09dd-49cd-9ed1-8e39d89fbbdd successfully","pid":77110}
+{"level":"info","timestamp":"2025-09-28T16:22:27.294+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":77110}
+{"level":"info","timestamp":"2025-09-28T16:22:40.084+0300","caller":"service/comment_service.go:64","msg":"create comment with id: f63cc344-e671-4722-9566-b2d1de21f7ab successfully","pid":77110}
+{"level":"error","timestamp":"2025-09-28T16:22:40.084+0300","caller":"service/viewer_service.go:84","msg":"no viewers for post with id: b7d8aa86-488f-4b04-b752-8bce628b2f67","pid":77110}
+{"level":"info","timestamp":"2025-09-28T16:22:48.375+0300","caller":"service/post_service.go:52","msg":"get post with id: b7d8aa86-488f-4b04-b752-8bce628b2f67 successfully","pid":77110}
+{"level":"info","timestamp":"2025-09-28T16:22:48.375+0300","caller":"service/comment_service.go:82","msg":"get comments by postId: b7d8aa86-488f-4b04-b752-8bce628b2f67 successfully","pid":77110}
+{"level":"info","timestamp":"2025-09-28T16:22:56.533+0300","caller":"service/viewer_service.go:46","msg":"create viewer for post id b7d8aa86-488f-4b04-b752-8bce628b2f67","pid":77110}
+{"level":"info","timestamp":"2025-09-28T16:23:04.683+0300","caller":"service/comment_service.go:64","msg":"create comment with id: 7d489a7a-5823-4e68-8518-819326fa09b6 successfully","pid":77110}
+{"level":"error","timestamp":"2025-09-28T16:23:05.184+0300","caller":"service/viewer_service.go:98","msg":"viewer with id: 0, channel full","pid":77110}
+{"level":"info","timestamp":"2025-09-28T16:23:05.184+0300","caller":"service/viewer_service.go:102","msg":"notify viewer for postId b7d8aa86-488f-4b04-b752-8bce628b2f67 successfully","pid":77110}
+{"level":"info","timestamp":"2025-09-28T16:23:35.913+0300","caller":"service/viewer_service.go:71","msg":"delete viewer for post id b7d8aa86-488f-4b04-b752-8bce628b2f67","pid":77110}
+{"level":"info","timestamp":"2025-09-28T16:23:37.383+0300","caller":"service/comment_service.go:64","msg":"create comment with id: 46e61d82-21b7-4f26-a4c0-eb0e223b74cb successfully","pid":77110}
+{"level":"error","timestamp":"2025-09-28T16:23:37.883+0300","caller":"service/viewer_service.go:98","msg":"viewer with id: 0, channel full","pid":77110}
+{"level":"info","timestamp":"2025-09-28T16:23:37.883+0300","caller":"service/viewer_service.go:102","msg":"notify viewer for postId b7d8aa86-488f-4b04-b752-8bce628b2f67 successfully","pid":77110}
+{"level":"info","timestamp":"2025-09-28T16:25:39.549+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":77110}
+{"level":"info","timestamp":"2025-09-28T16:25:39.549+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":77110}
+{"level":"info","timestamp":"2025-09-28T17:05:22.474+0300","caller":"app/app.go:49","msg":"using postgres storage","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:05:22.478+0300","caller":"db/connect_to_db.go:24","msg":"connected to Postgres successfully","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:06:12.930+0300","caller":"service/post_service.go:74","msg":"create post with id: c6925607-8284-42b6-aae4-62767f5f9307 successfully","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:06:15.618+0300","caller":"service/post_service.go:74","msg":"create post with id: b83a7c44-0ea8-4ff1-8f46-29c03754e7b8 successfully","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:06:23.728+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":111387}
+{"level":"error","timestamp":"2025-09-28T17:06:28.784+0300","caller":"service/comment_service.go:43","msg":"post with id: b7d8aa86-488f-4b04-b752-8bce628b2f67 does not exist, error: no rows in result set","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:06:36.190+0300","caller":"service/post_service.go:40","msg":"get all posts successfully","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:06:47.935+0300","caller":"service/comment_service.go:64","msg":"create comment with id: 5a897561-6063-4356-98c5-735486331da9 successfully","pid":111387}
+{"level":"error","timestamp":"2025-09-28T17:06:47.935+0300","caller":"service/viewer_service.go:80","msg":"no viewers for post with id: c6925607-8284-42b6-aae4-62767f5f9307","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:07:02.522+0300","caller":"service/post_service.go:52","msg":"get post with id: c6925607-8284-42b6-aae4-62767f5f9307 successfully","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:07:02.523+0300","caller":"service/comment_service.go:82","msg":"get comments by postId: c6925607-8284-42b6-aae4-62767f5f9307 successfully","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:07:47.002+0300","caller":"service/post_service.go:52","msg":"get post with id: c6925607-8284-42b6-aae4-62767f5f9307 successfully","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:07:47.002+0300","caller":"service/comment_service.go:82","msg":"get comments by postId: c6925607-8284-42b6-aae4-62767f5f9307 successfully","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:08:09.807+0300","caller":"service/comment_service.go:64","msg":"create comment with id: c66b2c11-f975-41ef-a657-2c71323de166 successfully","pid":111387}
+{"level":"error","timestamp":"2025-09-28T17:08:09.807+0300","caller":"service/viewer_service.go:80","msg":"no viewers for post with id: c6925607-8284-42b6-aae4-62767f5f9307","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:08:54.719+0300","caller":"service/post_service.go:52","msg":"get post with id: c6925607-8284-42b6-aae4-62767f5f9307 successfully","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:08:54.719+0300","caller":"service/comment_service.go:82","msg":"get comments by postId: c6925607-8284-42b6-aae4-62767f5f9307 successfully","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:08:54.720+0300","caller":"service/comment_service.go:92","msg":"get comments by commentId: 5a897561-6063-4356-98c5-735486331da9 successfully","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:16:09.773+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":111387}
+{"level":"info","timestamp":"2025-09-28T17:16:09.774+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":111387}

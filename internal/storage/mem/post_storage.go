@@ -19,7 +19,7 @@ type PostStorageMem struct {
 
 func NewPostStorageMem() *PostStorageMem {
 	return &PostStorageMem{
-		posts: make([]*models.Post, consts.InitPostsSizeInMem),
+		posts: make([]*models.Post, 0, consts.InitPostsSizeInMem),
 	}
 }
 

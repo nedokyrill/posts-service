@@ -28,8 +28,7 @@ func (r *commentResolver) Replies(ctx context.Context, obj *models.Comment) ([]*
 }
 
 // AddComment is the resolver for the AddComment field.
-func (r *mutationResolver) AddComment(ctx context.Context, author string, content string, postID uuid.UUID,
-	parentCommentID *uuid.UUID) (*models.Comment, error) {
+func (r *mutationResolver) AddComment(ctx context.Context, author string, content string, postID uuid.UUID, parentCommentID *uuid.UUID) (*models.Comment, error) {
 	comment, err := r.CommentService.CreateComment(ctx, author, content, postID, parentCommentID)
 	if err != nil {
 		var errr utils.GqlError

@@ -79,7 +79,7 @@ type ComplexityRoot struct {
 
 	Query struct {
 		GetAllPosts func(childComplexity int, page *int32) int
-		GetPostByID func(childComplexity int, id *uuid.UUID) int
+		GetPostByID func(childComplexity int, id uuid.UUID) int
 	}
 
 	Subscription struct {
@@ -99,7 +99,7 @@ type PostResolver interface {
 }
 type QueryResolver interface {
 	GetAllPosts(ctx context.Context, page *int32) ([]*models.Post, error)
-	GetPostByID(ctx context.Context, id *uuid.UUID) (*models.Post, error)
+	GetPostByID(ctx context.Context, id uuid.UUID) (*models.Post, error)
 }
 type SubscriptionResolver interface {
 	SubOnPost(ctx context.Context, postID uuid.UUID) (<-chan *models.Comment, error)
@@ -259,7 +259,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Query.GetPostByID(childComplexity, args["id"].(*uuid.UUID)), true
+		return e.complexity.Query.GetPostByID(childComplexity, args["id"].(uuid.UUID)), true
 
 	case "Subscription.SubOnPost":
 		if e.complexity.Subscription.SubOnPost == nil {
@@ -491,7 +491,7 @@ func (ec *executionContext) field_Query_GetAllPosts_args(ctx context.Context, ra
 func (ec *executionContext) field_Query_GetPostById_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalOUUID2ᚖgithubᚗcomᚋgoogleᚋuuidᚐUUID)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "id", ec.unmarshalNUUID2githubᚗcomᚋgoogleᚋuuidᚐUUID)
 	if err != nil {
 		return nil, err
 	}
@@ -1202,7 +1202,7 @@ func (ec *executionContext) _Query_GetPostById(ctx context.Context, field graphq
 		ec.fieldContext_Query_GetPostById,
 		func(ctx context.Context) (any, error) {
 			fc := graphql.GetFieldContext(ctx)
-			return ec.resolvers.Query().GetPostByID(ctx, fc.Args["id"].(*uuid.UUID))
+			return ec.resolvers.Query().GetPostByID(ctx, fc.Args["id"].(uuid.UUID))
 		},
 		nil,
 		ec.marshalNPost2ᚖgithubᚗcomᚋnedokyrillᚋpostsᚑserviceᚋinternalᚋmodelsᚐPost,

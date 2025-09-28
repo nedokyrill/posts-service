@@ -13,7 +13,7 @@ type Post {
 
 type Query {
     GetAllPosts(page: Int): [Post!]!
-    GetPostById(id: UUID): Post!
+    GetPostById(id: UUID!): Post!
 }
 
 type Mutation {

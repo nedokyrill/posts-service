@@ -16,8 +16,7 @@ import (
 )
 
 // CreatePost is the resolver for the CreatePost field.
-func (r *mutationResolver) CreatePost(ctx context.Context, title string, author *string, content string,
-	isCommentAllowed bool) (*models.Post, error) {
+func (r *mutationResolver) CreatePost(ctx context.Context, title string, author *string, content string, isCommentAllowed bool) (*models.Post, error) {
 	post, err := r.PostService.CreatePost(ctx, title, author, content, isCommentAllowed)
 	if err != nil {
 		var errr utils.GqlError
@@ -52,7 +51,7 @@ func (r *queryResolver) GetAllPosts(ctx context.Context, page *int32) ([]*models
 }
 
 // GetPostByID is the resolver for the GetPostById field.
-func (r *queryResolver) GetPostByID(ctx context.Context, id *uuid.UUID) (*models.Post, error) {
+func (r *queryResolver) GetPostByID(ctx context.Context, id uuid.UUID) (*models.Post, error) {
 	post, err := r.PostService.GetPostByID(ctx, id)
 	if err != nil {
 		var errr utils.GqlError

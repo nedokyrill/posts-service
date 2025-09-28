@@ -65,7 +65,7 @@ func (s *CommentServiceImpl) CreateComment(ctx context.Context, author string, c
 	return &newComm, nil
 }
 func (s *CommentServiceImpl) GetCommentsByPostID(ctx context.Context, postID uuid.UUID, page *int32) ([]*models.Comment, error) {
-	if page == nil || *page <= 0 {
+	if page != nil && *page <= 0 {
 		logger.Logger.Error("page must be greater than zero")
 
 		return nil, utils.GqlError{Msg: "page must be greater than zero", Type: consts.BadRequestType}

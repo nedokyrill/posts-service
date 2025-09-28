@@ -17,7 +17,7 @@ type CommentsStorageMem struct {
 
 func NewCommentsStorageMem() *CommentsStorageMem {
 	return &CommentsStorageMem{
-		comms: make([]models.Comment, consts.InitCommentsSizeInMem),
+		comms: make([]models.Comment, 0, consts.InitCommentsSizeInMem),
 	}
 }
 

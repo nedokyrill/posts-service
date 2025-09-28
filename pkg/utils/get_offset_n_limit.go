@@ -6,7 +6,7 @@ func GetOffsetNLimit(page *int32, pageSize int) (int, int) {
 	var newPage int32
 
 	if page == nil || *page <= 0 {
-		newPage = 1
+		newPage = 0
 	} else {
 		newPage = *page - 1
 	}

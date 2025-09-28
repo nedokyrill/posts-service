@@ -9,7 +9,7 @@ import (
 
 type PostService interface {
 	GetAllPosts(ctx context.Context, page *int32) ([]*models.Post, error)
-	GetPostByID(ctx context.Context, id *uuid.UUID) (*models.Post, error)
+	GetPostByID(ctx context.Context, id uuid.UUID) (*models.Post, error)
 	CreatePost(ctx context.Context, title string, author *string, content string, isCommentAllowed bool) (*models.Post, error)
 }
 
