@@ -11,6 +11,7 @@ import (
 	"github.com/google/uuid"
 	graphql1 "github.com/nedokyrill/posts-service/graphql"
 	"github.com/nedokyrill/posts-service/internal/models"
+	"github.com/nedokyrill/posts-service/pkg/logger"
 	"github.com/nedokyrill/posts-service/pkg/utils"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 )
@@ -36,11 +37,9 @@ func (r *mutationResolver) AddComment(ctx context.Context, author string, conten
 		return nil, &gqlerror.Error{Extensions: errr.Extensions()}
 	}
 
-	if err = r.ViewerService.NotifyViewers(ctx, postID, *comment); err != nil {
-		var errr utils.GqlError
-		errors.As(err, &errr)
-		return nil, &gqlerror.Error{Extensions: errr.Extensions()}
-	}
+	go func() { // асинхронный запуск рассылки нотификаций
+		_ = r.ViewerService.NotifyViewers(ctx, postID, *comment)
+	}()
 
 	return comment, nil
 }
@@ -54,22 +53,13 @@ func (r *subscriptionResolver) SubOnPost(ctx context.Context, postID uuid.UUID) 
 		return nil, &gqlerror.Error{Extensions: errr.Extensions()}
 	}
 
-	errCh := make(chan utils.GqlError)
 	go func() {
 		<-ctx.Done()
 		err = r.ViewerService.DeleteViewer(ctx, postID, id)
 		if err != nil {
-			var errr utils.GqlError
-			errors.As(err, &errr)
-			errCh <- errr
+			logger.Logger.Errorf("Error removing post viewer %s: %s", id, err)
 		}
-		errCh <- utils.GqlError{}
 	}()
-
-	errChan := <-errCh
-	if len(errChan.Msg) != 0 {
-		return nil, &gqlerror.Error{Extensions: errChan.Extensions()}
-	}
 
 	return ch, nil
 }

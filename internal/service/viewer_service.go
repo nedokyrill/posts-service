@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"sync"
-	"time"
 
 	"github.com/google/uuid"
 	"github.com/nedokyrill/posts-service/internal/models"
@@ -71,7 +70,7 @@ func (s *ViewerServiceImpl) DeleteViewer(_ context.Context, postId uuid.UUID, id
 }
 
 // отправляем уведомление в виде комментария всем подписчикам
-func (s *ViewerServiceImpl) NotifyViewers(ctx context.Context, postId uuid.UUID, comm models.Comment) error {
+func (s *ViewerServiceImpl) NotifyViewers(_ context.Context, postId uuid.UUID, comm models.Comment) error {
 	s.mu.Lock()
 
 	viewers, ok := s.viewers[postId]
@@ -85,13 +84,7 @@ func (s *ViewerServiceImpl) NotifyViewers(ctx context.Context, postId uuid.UUID,
 	s.mu.Unlock() // сделали копию каналов и разлочили мьютекс, чтобы далее не блокировать данные
 
 	for _, v := range snap {
-		select { // селект для неблокирующей отправки (канал для нотификаций может быть закрыт или заполнен)
-		case v.ch <- &comm: // отправляем нотификацию
-		case <-ctx.Done():
-			logger.Logger.Info("context canceled")
-		case <-time.After(500 * time.Millisecond): // если за 500мс канал не освободился, логируем айдишник и пропускаем
-			logger.Logger.Error(fmt.Sprintf("viewer with id: %v, channel full", v.id))
-		}
+		v.ch <- &comm
 	}
 
 	logger.Logger.Info(fmt.Sprintf("notify viewers for postId %s successfully", postId.String()))
