@@ -10,11 +10,11 @@ import (
 type PostService interface {
 	GetAllPosts(ctx context.Context, page *int32) ([]*models.Post, error)
 	GetPostByID(ctx context.Context, id uuid.UUID) (*models.Post, error)
-	CreatePost(ctx context.Context, title string, author *string, content string, isCommentAllowed bool) (*models.Post, error)
+	CreatePost(ctx context.Context, postReq models.PostRequest) (*models.Post, error)
 }
 
 type CommentService interface {
-	CreateComment(ctx context.Context, author string, content string, postID uuid.UUID, parentCommentID *uuid.UUID) (*models.Comment, error)
+	CreateComment(ctx context.Context, commReq models.CommentRequest) (*models.Comment, error)
 	GetCommentsByPostID(ctx context.Context, postID uuid.UUID, page *int32) ([]*models.Comment, error)
 	GetRepliesByComment(ctx context.Context, commentID uuid.UUID) ([]*models.Comment, error)
 }

@@ -15,3 +15,10 @@ type Comment struct {
 	//Replies         []*Comment `json:"replies,omitempty"`
 	CreatedAt *time.Time `json:"createdAt"`
 }
+
+type CommentRequest struct {
+	Author          string
+	Content         string
+	PostID          uuid.UUID
+	ParentCommentID *uuid.UUID
+}

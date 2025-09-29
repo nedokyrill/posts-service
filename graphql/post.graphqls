@@ -2,20 +2,21 @@ scalar Time
 scalar UUID
 
 type Post {
-    id: UUID!
-    title: String!
-    author: String!
-    content: String!
-    isCommentsAllowed: Boolean!
-    comments(page: Int): [Comment!]
-    createdAt: Time
+    id: UUID! # id поста
+    title: String! # название поста
+    author: String! # автор поста
+    content: String! # текст поста
+    isCommentsAllowed: Boolean! # флаг, показывающий можно ли оставлять комментарии к данному посту
+    comments(page: Int): [Comment!] # список комментариев к посту
+    createdAt: Time # дата и время создания поста
 }
 
 type Query {
-    GetAllPosts(page: Int): [Post!]!
-    GetPostById(id: UUID!): Post!
+    GetAllPosts(page: Int): [Post!]! # метод для просмотра всех постов
+    GetPostById(id: UUID!): Post! # метод для просмотра поста по его id
 }
 
 type Mutation {
+    # метод для создания поста
     CreatePost(title: String!, author: String, content: String!, isCommentAllowed: Boolean!): Post!
 }

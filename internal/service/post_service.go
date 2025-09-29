@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 	"fmt"
 
 	"github.com/google/uuid"
@@ -24,9 +26,10 @@ func NewPostService(store storage.PostStorage) *PostServiceImpl {
 
 func (s *PostServiceImpl) GetAllPosts(ctx context.Context, page *int32) ([]*models.Post, error) {
 	if page != nil && *page <= 0 {
-		logger.Logger.Error("page must be greater than zero")
-		return nil, utils.GqlError{Msg: "page must be greater than zero", Type: consts.BadRequestType}
-
+		return nil, utils.GqlError{
+			Msg:  "page must be greater than zero",
+			Type: consts.BadRequestType,
+		}
 	}
 
 	offset, limit := utils.GetOffsetNLimit(page, consts.PageSize)
@@ -34,7 +37,10 @@ func (s *PostServiceImpl) GetAllPosts(ctx context.Context, page *int32) ([]*mode
 	posts, err := s.store.GetAllPosts(ctx, offset, limit)
 	if err != nil {
 		logger.Logger.Error("error with getting posts: ", err)
-		return nil, utils.GqlError{Msg: "error with getting posts", Type: consts.InternalServerErrorType}
+		return nil, utils.GqlError{
+			Msg:  "error with getting posts",
+			Type: consts.InternalServerErrorType,
+		}
 	}
 
 	logger.Logger.Info("get all posts successfully")
@@ -44,31 +50,50 @@ func (s *PostServiceImpl) GetPostByID(ctx context.Context, id uuid.UUID) (*model
 	post, err := s.store.GetPostByID(ctx, id)
 
 	if err != nil {
-		logger.Logger.Error(fmt.Sprintf("post with id: %s not found, err: %v", id.String(), err))
-		return nil, utils.GqlError{Msg: fmt.Sprintf("post with id: %s not found", id.String()),
-			Type: consts.InternalServerErrorType}
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, utils.GqlError{
+				Msg:  fmt.Sprintf("post with id: %s not found", id.String()),
+				Type: consts.BadRequestType,
+			}
+		}
+		logger.Logger.Error("error with getting post: ", err)
+		return nil, utils.GqlError{
+			Msg:  fmt.Sprintf("error with getting post with id: %s", id.String()),
+			Type: consts.InternalServerErrorType,
+		}
 	}
 
 	logger.Logger.Info(fmt.Sprintf("get post with id: %s successfully", post.ID.String()))
 	return post, nil
 }
-func (s *PostServiceImpl) CreatePost(ctx context.Context, title string, author *string, content string,
-	isCommentAllowed bool) (*models.Post, error) {
-	if len(title) == 0 {
-		logger.Logger.Error("post must have a title")
-		return nil, utils.GqlError{Msg: "post must have a title", Type: consts.BadRequestType}
+func (s *PostServiceImpl) CreatePost(ctx context.Context, postReq models.PostRequest) (*models.Post, error) {
+	if len(postReq.Title) == 0 {
+		return nil, utils.GqlError{
+			Msg:  "post must have a title",
+			Type: consts.BadRequestType,
+		}
 	}
 
-	if len(*author) == 0 {
-		logger.Logger.Error("post must have a author")
-		return nil, utils.GqlError{Msg: "post must have a author", Type: consts.BadRequestType}
+	if len(*postReq.Author) == 0 {
+		return nil, utils.GqlError{
+			Msg:  "post must have a author",
+			Type: consts.BadRequestType,
+		}
 	}
 
-	newPost, err := s.store.CreatePost(ctx, models.Post{Title: title, Author: *author, Content: content,
-		IsCommentsAllowed: isCommentAllowed})
+	newPost, err := s.store.CreatePost(ctx, models.Post{
+		Title:             postReq.Title,
+		Author:            *postReq.Author,
+		Content:           postReq.Content,
+		IsCommentsAllowed: postReq.IsCommentAllowed,
+	})
+
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("error with creating post: %v", err))
-		return nil, utils.GqlError{Msg: "error creating post", Type: consts.InternalServerErrorType}
+		return nil, utils.GqlError{
+			Msg:  "error creating post",
+			Type: consts.InternalServerErrorType,
+		}
 	}
 
 	logger.Logger.Info(fmt.Sprintf("create post with id: %s successfully", newPost.ID.String()))

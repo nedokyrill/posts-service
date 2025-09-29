@@ -17,11 +17,19 @@ import (
 
 // CreatePost is the resolver for the CreatePost field.
 func (r *mutationResolver) CreatePost(ctx context.Context, title string, author *string, content string, isCommentAllowed bool) (*models.Post, error) {
-	post, err := r.PostService.CreatePost(ctx, title, author, content, isCommentAllowed)
+	post, err := r.PostService.CreatePost(ctx, models.PostRequest{
+		Title:            title,
+		Author:           author,
+		Content:          content,
+		IsCommentAllowed: isCommentAllowed,
+	})
+
 	if err != nil {
-		var errr utils.GqlError
-		errors.As(err, &errr)
-		return nil, &gqlerror.Error{Extensions: errr.Extensions()}
+		var gqlErr utils.GqlError
+		if errors.As(err, &gqlErr) {
+			return nil, &gqlerror.Error{Extensions: gqlErr.Extensions()}
+		}
+		return nil, err
 	}
 
 	return post, nil
@@ -31,9 +39,11 @@ func (r *mutationResolver) CreatePost(ctx context.Context, title string, author 
 func (r *postResolver) Comments(ctx context.Context, obj *models.Post, page *int32) ([]*models.Comment, error) {
 	comments, err := r.CommentService.GetCommentsByPostID(ctx, obj.ID, page)
 	if err != nil {
-		var errr utils.GqlError
-		errors.As(err, &errr)
-		return nil, &gqlerror.Error{Extensions: errr.Extensions()}
+		var gqlErr utils.GqlError
+		if errors.As(err, &gqlErr) {
+			return nil, &gqlerror.Error{Extensions: gqlErr.Extensions()}
+		}
+		return nil, err
 	}
 	return comments, nil
 }
@@ -42,9 +52,11 @@ func (r *postResolver) Comments(ctx context.Context, obj *models.Post, page *int
 func (r *queryResolver) GetAllPosts(ctx context.Context, page *int32) ([]*models.Post, error) {
 	posts, err := r.PostService.GetAllPosts(ctx, page)
 	if err != nil {
-		var errr utils.GqlError
-		errors.As(err, &errr)
-		return nil, &gqlerror.Error{Extensions: errr.Extensions()}
+		var gqlErr utils.GqlError
+		if errors.As(err, &gqlErr) {
+			return nil, &gqlerror.Error{Extensions: gqlErr.Extensions()}
+		}
+		return nil, err
 	}
 
 	return posts, nil
@@ -54,9 +66,11 @@ func (r *queryResolver) GetAllPosts(ctx context.Context, page *int32) ([]*models
 func (r *queryResolver) GetPostByID(ctx context.Context, id uuid.UUID) (*models.Post, error) {
 	post, err := r.PostService.GetPostByID(ctx, id)
 	if err != nil {
-		var errr utils.GqlError
-		errors.As(err, &errr)
-		return nil, &gqlerror.Error{Extensions: errr.Extensions()}
+		var gqlErr utils.GqlError
+		if errors.As(err, &gqlErr) {
+			return nil, &gqlerror.Error{Extensions: gqlErr.Extensions()}
+		}
+		return nil, err
 	}
 	return post, nil
 }

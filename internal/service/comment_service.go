@@ -24,51 +24,64 @@ func NewCommentService(commStore storage.CommentStorage, postStore storage.PostS
 	}
 }
 
-func (s *CommentServiceImpl) CreateComment(ctx context.Context, author string, content string, postID uuid.UUID,
-	parentCommentID *uuid.UUID) (*models.Comment, error) {
-	if len(author) == 0 {
-		logger.Logger.Error("comment must have a author")
-		return nil, utils.GqlError{Msg: "comment must have a author", Type: consts.BadRequestType}
+func (s *CommentServiceImpl) CreateComment(ctx context.Context,
+	commReq models.CommentRequest) (*models.Comment, error) {
+	if len(commReq.Author) == 0 {
+		return nil, utils.GqlError{
+			Msg:  "comment must have a author",
+			Type: consts.BadRequestType,
+		}
 
 	}
 
-	if len(content) > consts.ContentMaxLen {
-		logger.Logger.Error(fmt.Sprintf("comment content should no exceed %v characters", consts.ContentMaxLen))
-		return nil, utils.GqlError{Msg: fmt.Sprintf("comment content should no exceed %v characters",
-			consts.ContentMaxLen), Type: consts.BadRequestType}
+	if len(commReq.Content) > consts.ContentMaxLen {
+		return nil, utils.GqlError{
+			Msg:  fmt.Sprintf("comment content should no exceed %v characters", consts.ContentMaxLen),
+			Type: consts.BadRequestType,
+		}
 	}
 
-	post, err := s.postStore.GetPostByID(ctx, postID)
+	post, err := s.postStore.GetPostByID(ctx, commReq.PostID)
 	if err != nil {
-		logger.Logger.Error(fmt.Sprintf("post with id: %s does not exist, error: %v",
-			postID.String(), err))
-		return nil, utils.GqlError{Msg: fmt.Sprintf("post with id: %s does not exist", postID.String()),
-			Type: consts.BadRequestType}
+		return nil, utils.GqlError{
+			Msg:  fmt.Sprintf("post with id: %s does not exist", commReq.PostID.String()),
+			Type: consts.BadRequestType,
+		}
 	}
 
 	if !post.IsCommentsAllowed {
-		logger.Logger.Error(fmt.Sprintf("post with id: %s is not allowed to create comment",
-			postID.String()))
-		return nil, utils.GqlError{Msg: fmt.Sprintf("post with id: %s is not allowed to create comment",
-			postID.String()), Type: consts.BadRequestType}
+		return nil, utils.GqlError{
+			Msg:  fmt.Sprintf("post with id: %s is not allowed to create comment", commReq.PostID.String()),
+			Type: consts.BadRequestType,
+		}
 
 	}
 
-	newComm, err := s.commStore.CreateComment(ctx, models.Comment{Author: author, Content: content, PostID: postID,
-		ParentCommentID: parentCommentID})
+	newComm, err := s.commStore.CreateComment(ctx, models.Comment{
+		Author:          commReq.Author,
+		Content:         commReq.Content,
+		PostID:          commReq.PostID,
+		ParentCommentID: commReq.ParentCommentID,
+	})
+
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("error creating comment: %v", err))
-		return nil, utils.GqlError{Msg: "error creating comment", Type: consts.InternalServerErrorType}
+		return nil, utils.GqlError{
+			Msg:  "error creating comment",
+			Type: consts.InternalServerErrorType,
+		}
 	}
 
 	logger.Logger.Info(fmt.Sprintf("create comment with id: %s successfully", newComm.ID.String()))
 	return &newComm, nil
 }
-func (s *CommentServiceImpl) GetCommentsByPostID(ctx context.Context, postID uuid.UUID, page *int32) ([]*models.Comment, error) {
+func (s *CommentServiceImpl) GetCommentsByPostID(ctx context.Context, postID uuid.UUID,
+	page *int32) ([]*models.Comment, error) {
 	if page != nil && *page <= 0 {
-		logger.Logger.Error("page must be greater than zero")
-
-		return nil, utils.GqlError{Msg: "page must be greater than zero", Type: consts.BadRequestType}
+		return nil, utils.GqlError{
+			Msg:  "page must be greater than zero",
+			Type: consts.BadRequestType,
+		}
 	}
 
 	offset, limit := utils.GetOffsetNLimit(page, consts.PageSize)
@@ -76,17 +89,23 @@ func (s *CommentServiceImpl) GetCommentsByPostID(ctx context.Context, postID uui
 	comments, err := s.commStore.GetCommentsByPostID(ctx, postID, offset, limit)
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("error getting comments: %v", err))
-		return nil, utils.GqlError{Msg: "error getting comments", Type: consts.InternalServerErrorType}
+		return nil, utils.GqlError{
+			Msg:  "error getting comments",
+			Type: consts.InternalServerErrorType,
+		}
 	}
 
 	logger.Logger.Info(fmt.Sprintf("get comments by postId: %s successfully", postID.String()))
 	return comments, nil
 }
 func (s *CommentServiceImpl) GetRepliesByComment(ctx context.Context, commentID uuid.UUID) ([]*models.Comment, error) {
-	replies, err := s.commStore.GetRepliesByComment(ctx, commentID)
+	replies, err := s.commStore.GetRepliesByParentCommentID(ctx, commentID)
 	if err != nil {
 		logger.Logger.Error(fmt.Sprintf("error getting comments: %v", err))
-		return nil, utils.GqlError{Msg: "error getting comments", Type: consts.InternalServerErrorType}
+		return nil, utils.GqlError{
+			Msg:  "error getting comments",
+			Type: consts.InternalServerErrorType,
+		}
 	}
 
 	logger.Logger.Info(fmt.Sprintf("get comments by commentId: %s successfully", commentID.String()))

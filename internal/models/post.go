@@ -15,3 +15,10 @@ type Post struct {
 	//Comments          []*Comment `json:"comments,omitempty"`
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 }
+
+type PostRequest struct {
+	Title            string
+	Author           *string
+	Content          string
+	IsCommentAllowed bool
+}

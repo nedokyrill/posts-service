@@ -64,7 +64,8 @@ func (s *CommentsStorePgx) GetCommentsByPostID(ctx context.Context, postID uuid.
 }
 
 // слишком много одинакового кода, но решил не выносить в отдельный метод, так как используется всего в двух методах
-func (s *CommentsStorePgx) GetRepliesByComment(ctx context.Context, parentCommentID uuid.UUID) ([]*models.Comment, error) {
+func (s *CommentsStorePgx) GetRepliesByParentCommentID(ctx context.Context,
+	parentCommentID uuid.UUID) ([]*models.Comment, error) {
 	var replies []*models.Comment
 	query := `SELECT * FROM comments WHERE parent_comment_id = $1 ORDER BY created_at;`
 
@@ -83,8 +84,14 @@ func (s *CommentsStorePgx) GetRepliesByComment(ctx context.Context, parentCommen
 		if err = rows.Scan(&id, &author, &content, &postId, &parentId, &createdAt); err != nil {
 			return nil, err
 		}
-		replies = append(replies, &models.Comment{ID: id, Author: author, Content: content, PostID: postId,
-			ParentCommentID: parentId, CreatedAt: createdAt})
+		replies = append(replies, &models.Comment{
+			ID:              id,
+			Author:          author,
+			Content:         content,
+			PostID:          postId,
+			ParentCommentID: parentId,
+			CreatedAt:       createdAt,
+		})
 	}
 	return replies, nil
 }

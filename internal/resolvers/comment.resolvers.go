@@ -7,6 +7,7 @@ package resolvers
 import (
 	"context"
 	"errors"
+	"time"
 
 	"github.com/google/uuid"
 	graphql1 "github.com/nedokyrill/posts-service/graphql"
@@ -20,9 +21,11 @@ import (
 func (r *commentResolver) Replies(ctx context.Context, obj *models.Comment) ([]*models.Comment, error) {
 	comments, err := r.CommentService.GetRepliesByComment(ctx, obj.ID)
 	if err != nil {
-		var errr utils.GqlError
-		errors.As(err, &errr)
-		return nil, &gqlerror.Error{Extensions: errr.Extensions()}
+		var gqlErr utils.GqlError
+		if errors.As(err, &gqlErr) {
+			return nil, &gqlerror.Error{Extensions: gqlErr.Extensions()}
+		}
+		return nil, err
 	}
 
 	return comments, nil
@@ -30,11 +33,19 @@ func (r *commentResolver) Replies(ctx context.Context, obj *models.Comment) ([]*
 
 // AddComment is the resolver for the AddComment field.
 func (r *mutationResolver) AddComment(ctx context.Context, author string, content string, postID uuid.UUID, parentCommentID *uuid.UUID) (*models.Comment, error) {
-	comment, err := r.CommentService.CreateComment(ctx, author, content, postID, parentCommentID)
+	comment, err := r.CommentService.CreateComment(ctx, models.CommentRequest{
+		Author:          author,
+		Content:         content,
+		PostID:          postID,
+		ParentCommentID: parentCommentID,
+	})
+
 	if err != nil {
-		var errr utils.GqlError
-		errors.As(err, &errr)
-		return nil, &gqlerror.Error{Extensions: errr.Extensions()}
+		var gqlErr utils.GqlError
+		if errors.As(err, &gqlErr) {
+			return nil, &gqlerror.Error{Extensions: gqlErr.Extensions()}
+		}
+		return nil, err
 	}
 
 	go func() { // асинхронный запуск рассылки нотификаций
@@ -48,14 +59,20 @@ func (r *mutationResolver) AddComment(ctx context.Context, author string, conten
 func (r *subscriptionResolver) SubOnPost(ctx context.Context, postID uuid.UUID) (<-chan *models.Comment, error) {
 	id, ch, err := r.ViewerService.CreateViewer(ctx, postID)
 	if err != nil {
-		var errr utils.GqlError
-		errors.As(err, &errr)
-		return nil, &gqlerror.Error{Extensions: errr.Extensions()}
+		var gqlErr utils.GqlError
+		if errors.As(err, &gqlErr) {
+			return nil, &gqlerror.Error{Extensions: gqlErr.Extensions()}
+		}
+		return nil, err
 	}
 
 	go func() {
 		<-ctx.Done()
-		err = r.ViewerService.DeleteViewer(ctx, postID, id)
+
+		newCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		err = r.ViewerService.DeleteViewer(newCtx, postID, id)
 		if err != nil {
 			logger.Logger.Errorf("Error removing post viewer %s: %s", id, err)
 		}

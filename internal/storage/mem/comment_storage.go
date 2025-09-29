@@ -55,7 +55,7 @@ func (s *CommentsStorageMem) GetCommentsByPostID(_ context.Context, postID uuid.
 
 	return comments[offset : offset+limit], nil
 }
-func (s *CommentsStorageMem) GetRepliesByComment(_ context.Context, parentCommentID uuid.UUID) ([]*models.Comment, error) {
+func (s *CommentsStorageMem) GetRepliesByParentCommentID(_ context.Context, parentCommentID uuid.UUID) ([]*models.Comment, error) {
 	comments := make([]*models.Comment, 0)
 
 	s.mu.RLock()

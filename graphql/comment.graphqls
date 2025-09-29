@@ -1,17 +1,18 @@
 type Comment {
-    id: UUID!
-    author: String!
-    content: String!
-    postId: UUID!
-    parentCommentId: UUID
-    replies: [Comment!]
-    createdAt: Time
+    id: UUID! # id комментария
+    author: String! # автор комментария
+    content: String! # текст комментария
+    postId: UUID! # id поста, на который оставляется комментарий
+    parentCommentId: UUID # id комментария, на который оставляется комментарий
+    replies: [Comment!] # массив ответов на комментарий
+    createdAt: Time # дата и время создания комментария
 }
 
 extend type Mutation {
+    # метод для создания комментария
     AddComment(author: String!, content: String!, postId: UUID!, parentCommentId: UUID): Comment!
 }
 
 type Subscription {
-    SubOnPost(postId: UUID!): Comment!
+    SubOnPost(postId: UUID!): Comment! # метод для подписки на уведомления о новых комментариях к посту
 }
