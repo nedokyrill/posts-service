@@ -1,5 +1,4 @@
-include .env
-export
+-include .env
 
 # ЛОКАЛЬНЫЙ ЗАПУСК ПРИЛОЖЕНИЯ
 

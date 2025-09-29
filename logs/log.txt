@@ -256,3 +256,6 @@
 {"level":"info","timestamp":"2025-09-29T01:44:00.847+0300","caller":"service/viewer_service.go:68","msg":"delete viewer for post id a2a81c32-3cb7-4f5a-9d68-06b74d268a27","pid":3527}
 {"level":"info","timestamp":"2025-09-29T01:44:04.108+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":3527}
 {"level":"info","timestamp":"2025-09-29T01:44:04.109+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":3527}
+{"level":"info","timestamp":"2025-09-29T17:45:38.574+0300","caller":"app/app.go:45","msg":"using memory storage","pid":320563}
+{"level":"info","timestamp":"2025-09-29T17:45:40.003+0300","caller":"app/app.go:100","msg":"shutting down server...","pid":320563}
+{"level":"info","timestamp":"2025-09-29T17:45:40.004+0300","caller":"server/server.go:44","msg":"shutdown completed before timeout.","pid":320563}

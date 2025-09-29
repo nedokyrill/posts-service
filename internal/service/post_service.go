@@ -74,7 +74,7 @@ func (s *PostServiceImpl) CreatePost(ctx context.Context, postReq models.PostReq
 		}
 	}
 
-	if len(*postReq.Author) == 0 {
+	if postReq.Author == nil || len(*postReq.Author) == 0 {
 		return nil, utils.GqlError{
 			Msg:  "post must have a author",
 			Type: consts.BadRequestType,
